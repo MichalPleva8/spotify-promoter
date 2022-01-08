@@ -11,7 +11,6 @@ This site was build using [Spotify Api](https://developer.spotify.com/)
 ```
 cd server 
 npm install
-
 ```
 and
 
