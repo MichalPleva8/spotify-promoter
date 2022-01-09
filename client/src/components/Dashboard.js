@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { api } from '../App';
 import nocover from '../assets/nocover.png';
 
 function Song(props) {
@@ -41,20 +42,12 @@ function Dashboard(props) {
 		let limit = 15;
 		let offset = 0;
 
-		fetch(`http://localhost:5000/api/songs?token=${props.token}&market=SK&limit=${limit}&offset=${offset}`)
-			.then(raw => raw.json())
-			.then(json => {
-				console.log(json);
-				setSongs(json);
-			})
+		api.getMySongs(limit, offset)
+			.then(result => setSongs(result))
 			.catch(error => console.error(error));
 
-		fetch(`http://localhost:5000/api/playlists?token=${props.token}`)
-			.then(raw => raw.json())
-			.then(json => {
-				console.log(json);
-				setPlaylists(json);
-			})
+		api.getMyPlaylists()
+			.then(result => setPlaylists(result))
 			.catch(error => console.error(error));
 	}, [])
 
