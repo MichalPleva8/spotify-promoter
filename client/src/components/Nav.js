@@ -4,21 +4,21 @@ import nouser from '../assets/nouser.png';
 import { api } from '../App';
 
 function Nav(props) {
-	console.log(api.accessToken);
-
 	let next = () => {
-		fetch(`http://localhost:5000/api/skip?token=${props.token}`)
-			.then(raw => raw.json())
-			.then(json => console.log(json))
-			.catch(error => console.error(error));
+		api.skipSong();
 	}
 
 	let pause = () => {
-		api.pauseSongs();
 	}
 
 	let prev = () => {
+		api.prevSong();
+	}
 
+	let getPlayback = () => {
+		api.getPlayback()
+			.then(result => console.log(result))
+			.catch(error => console.error(error));
 	}
 
 	return (
@@ -26,7 +26,7 @@ function Nav(props) {
 			<div className="nav-wrapper">
 				<div className="nav-data">
 					<div className="playback">
-						<img src={cover} style={{height: '100px'}} alt="Album" />
+						<img src={cover} onClick={() => getPlayback()} style={{height: '100px'}} alt="Album" />
 						<div className="playback-data">
 							<h3>Skip</h3>
 							<p>ARAI</p>

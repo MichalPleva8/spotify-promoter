@@ -3,17 +3,20 @@ const router = express.Router();
 const request = require('request');
 
 router.get('/me', (req, res) => {
+	const token = req.headers.key || req.query.token;
+
 	const requestUri = "https://api.spotify.com/v1/me";
 	const requestBody = {};
 	const requestHeaders = {
 		"Accept": "application/json",
 		"Content-Type": "application/json",
-		"Authorization": `Bearer ${req.query.token}`
+		"Authorization": `Bearer ${token}`
 	};
 
 	try {
 		request.get(requestUri, { headers: requestHeaders }, (error, response, body) => {
 			let raw = JSON.parse(body)
+
 			let payload = {
 				image: raw.images[0].url,
 				username: raw.display_name,
@@ -31,6 +34,8 @@ router.get('/me', (req, res) => {
 
 // Get list of all songs
 router.get('/songs', (req, res) => {
+	const token = req.headers.key || req.query.token;
+
 	let limit = req.query.limit || 25;
 	let offset = req.query.offset || 0;
 	let market = req.query.market || 'SK';
@@ -39,7 +44,7 @@ router.get('/songs', (req, res) => {
 	const requestHeaders = {
 		"Accept": "application/json",
 		"Content-Type": "application/json",
-		"Authorization": `Bearer ${req.query.token}`
+		"Authorization": `Bearer ${token}`
 	};
 
 	request.get(requestUri, { headers: requestHeaders }, (error, response, body) => {
@@ -64,14 +69,17 @@ router.get('/songs', (req, res) => {
 });
 
 router.get('/playlists', (req, res) => {
-	let limit = req.query.limit || 25;
+	const token = req.headers.key || req.query.token;
+
+	// Params for request
+	let limit = req.query.limit || 15;
 	let offset = req.query.offset || 0;
 
 	const requestUri = `https://api.spotify.com/v1/me/playlists?limit=${limit}&offset=${offset}`;
 	const requestHeaders = {
 		"Accept": "application/json",
 		"Content-Type": "application/json",
-		"Authorization": `Bearer ${req.query.token}`
+		"Authorization": `Bearer ${token}`
 	};
 
 	request.get(requestUri, { headers: requestHeaders }, (error, response, body) => {
@@ -95,10 +103,78 @@ router.get('/playlists', (req, res) => {
 			}
 
 			res.status(200).json(payload);
-			
 		} catch (error) {
 			res.status(400).json(error)
 		}
+	});
+});
+
+// Get current playback 
+router.get('/playback', (req, res) => {
+	const token = req.headers.key || req.query.token;
+
+	const requestUri = "https://api.spotify.com/v1/me/player/currently-playing";
+	const requestHeaders = {
+		"Accept": "application/json",
+		"Content-Type": "application/json",
+		"Authorization": `Bearer ${token}`
+	};
+
+	request.post(requestUri, { headers: requestHeaders }, (error, response, body) => {
+		if (error) { res.status(400).json({ error }); return;}
+
+		console.log(response.statusCode);
+
+		// let payload = {};
+		// if (body.item) {
+		// 	payload = {
+		// 		timestamp: body.timestamp,
+		// 		progress_ms: body.progress_ms,
+		// 		album: body.item.album,
+		// 		href: body.item.href,
+		// 		id: body.item.id,
+		// 		images: body.item.images,
+		// 		name: body.item.name,
+		// 	}
+		// }
+
+		res.status(200).json(body);
+	});
+});
+
+// Skip song
+router.get('/skip', (req, res) => {
+	const token = req.headers.key || req.query.token;
+
+	const requestUri = `https://api.spotify.com/v1/me/player/next`;
+	const requestHeaders = {
+		"Accept": "application/json",
+		"Content-Type": "application/json",
+		"Authorization": `Bearer ${token}`
+	};
+
+	request.post(requestUri, { headers: requestHeaders }, (error, response, body) => {
+		if (error) { res.status(400).json({ error }); return;}
+
+		res.status(200).json({ error: 'none', message: 'Skipped!' });
+	});
+});
+
+// Prev song 
+router.get('/prev', (req, res) => {
+	const token = req.headers.key || req.query.token;
+
+	const requestUri = `https://api.spotify.com/v1/me/player/previous`;
+	const requestHeaders = {
+		"Accept": "application/json",
+		"Content-Type": "application/json",
+		"Authorization": `Bearer ${token}`
+	};
+
+	request.post(requestUri, { headers: requestHeaders }, (error, response, body) => {
+		if (error) { res.status(400).json({ error }); return;}
+
+		res.status(200).json({ error: 'none', message: 'Previous!' });
 	});
 });
 
@@ -125,20 +201,5 @@ router.get('/play', (req, res) => {
 	});
 });
 
-// Skip
-router.get('/skip', (req, res) => {
-	const requestUri = `https://api.spotify.com/v1/me/player/next`;
-	const requestHeaders = {
-		"Accept": "application/json",
-		"Content-Type": "application/json",
-		"Authorization": `Bearer ${req.query.token}`
-	};
-
-	request.post(requestUri, { headers: requestHeaders }, (error, response, body) => {
-		if (error) { res.status(400).json({ error }); return;}
-
-		res.status(200).json({ error: 'none', message: 'Skipped!' });
-	});
-});
 
 module.exports = router;

@@ -23,9 +23,14 @@ app.use(cors());
 
 
 let checkAccessToken = (req, res, next) => {
+	let logging = false
+
 	if (req.path.includes("api")) {
-		console.log(`-> Path: ${req.path}, Has token: ${req.query.token != undefined}`);
-		if (req.query.token === undefined) {
+		if (logging) {
+			console.log(`-> Path: ${req.path}, Has token: ${req.query.token != undefined || req.headers.key != undefined}`);
+		}
+
+		if (req.query.token === undefined && req.headers.key == undefined) {
 			res.status(401).json({ error: "Access Token not provided", statusCode: 401 })
 			return;
 		}
