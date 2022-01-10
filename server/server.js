@@ -23,7 +23,7 @@ app.use(cors());
 
 
 let checkAccessToken = (req, res, next) => {
-	let logging = false
+	let logging = false; 
 
 	if (req.path.includes("api")) {
 		if (logging) {
