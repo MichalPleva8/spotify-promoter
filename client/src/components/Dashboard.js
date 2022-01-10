@@ -39,7 +39,7 @@ function Dashboard(props) {
 	const [playlists, setPlaylists] = useState([]);
 
 	useEffect(() => {
-		let limit = 15;
+		let limit = 10;
 		let offset = 0;
 
 		api.getMySongs(limit, offset)

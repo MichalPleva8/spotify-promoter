@@ -8,7 +8,9 @@ function Login() {
 	return (
 		<div className="fullpage-center">
 			<div className="login-wrapper">
-				<a className='spotify-button' href={authUrl}>Authorize with Spotify</a>
+				<h1 className="login-xl">Promoter</h1>
+				<p className="login-text">Promoter is an web app made to promote your spotify playlist in a beautiful coverflow that your music deserves. Register your playlist by <a href="#">Promote</a>.</p>
+				<a className='spotify-button' href={authUrl}>Log in with Spotify</a>
 			</div>
 		</div>
 	)

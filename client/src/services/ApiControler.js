@@ -71,6 +71,18 @@ class ApiControler {
 		return json;
 	} 
 
+	getPlaylistTracks = async (playlistId, limit, offset) => {
+		let requestPlaylistId = playlistId;
+		let requestLimit = limit || 10;
+		let requestOffset = offset || 0;
+
+		let options = { headers: { "key": this.accessToken } };
+		const response = await fetch(`http://localhost:5000/api/playlist/tracks?pid=${requestPlaylistId}&limit=${requestLimit}&offset=${requestOffset}`, options);
+		const json = await response.json();
+
+		return json;
+	} 
+
 	getPlayback = async () => {
 		let options = { headers: { "key": this.accessToken } };
 		const response = await fetch("http://localhost:5000/api/playback", options);

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Nav, Login, Dashboard } from './components/index.js';
+import { Nav, Login, Showcase  } from './components/index.js';
 import ApiControler from './services/ApiControler.js';
 import './Normalizer.css';
 import './App.css';
@@ -26,8 +26,8 @@ function App() {
 
   return (
     <div className="App">
-      <Nav user={me} logout={logout} />
-      {me.username ? <Dashboard /> : <Login />}
+      {me.username && <Nav user={me} logout={logout} />}
+      {me.username ? <Showcase /> : <Login />}
     </div>
   );
 }

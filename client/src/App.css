@@ -9,78 +9,57 @@ body, html {
 	height: 20px;
 }
 
-/* Nav */
-.nav {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  background: #000;
-}
-
-.nav-wrapper {
-  padding: 20px;
-  display: flex;
-  justify-content: space-between;
-}
-
-.playback {
-  display: flex;
-  gap: 15px;
-}
-
-.playback-data {
-  margin-top: 15px;
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-  gap: 10px;
-}
-
-.controls-group {
-  display: flex;
-  flex-direction: row;
-  gap: 5px;
-}
-
-.controls-group > button {
-  background: none;
-  border: none;
-
-  color: #fff;
-  cursor: pointer;
-}
-
-.profile {
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
-}
-
-.profile-pic {
-  width: 50px;
-  border-radius: 50%;
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
-  -ms-border-radius: 50%;
-  -o-border-radius: 50%;
-  object-fit: cover;
-}
-
-.profile-data {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
 /* Login */
 .login-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 32px;
 }
+
+.login-xl {
+  font-family: Poppins;
+  font-size: 48px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 48px;
+  text-align: center;
+}
+
+.login-text {
+  max-width: 600px;
+  color: #ddd;
+  font-family: Nunito Sans;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 23px;
+  text-align: center;
+}
+
+.login-text a {
+  color: #1DD954;
+}
+
+.spotify-button {
+  padding: 15px 49px;
+  color: #ccf2d7;
+  background: #1DD954;
+  border: none;
+  font-family: 'Poppins';
+  font-weight: 700;
+  font-size: 16px;
+  line-height: none;
+  text-decoration: none;
+  box-shadow: rgba(0, 50, 0, 0.1) 0px 20px 25px -5px, rgba(0, 50, 0, 0.04) 0px 10px 10px -5px;
+  border-radius: 99px;
+  -webkit-border-radius: 99px;
+  -moz-border-radius: 99px;
+  -ms-border-radius: 99px;
+  -o-border-radius: 99px;
+  cursor: pointer;
+}
+
 
 /* Header */
 .header {
@@ -111,29 +90,6 @@ body, html {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.spotify-button {
-  padding: 16px 20px;
-
-  color: #ccf2d7;
-  background: #1ed760;
-  border: none;
-
-  font-family: 'Poppins';
-  font-weight: 700;
-  font-size: 16px;
-  line-height: none;
-  text-decoration: none;
-
-  box-shadow: rgba(0, 50, 0, 0.1) 0px 20px 25px -5px, rgba(0, 50, 0, 0.04) 0px 10px 10px -5px;
-  
-  border-radius: 99px;
-  -webkit-border-radius: 99px;
-  -moz-border-radius: 99px;
-  -ms-border-radius: 99px;
-  -o-border-radius: 99px;
-  cursor: pointer;
 }
 
 .row {
@@ -214,3 +170,94 @@ body, html {
   text-align: left;
 }
 
+/* Showcase */
+.showcase {
+  width: 100%;
+  margin-top: 120px; /* Fixes Navigation's(postition: fixed) */
+}
+
+.showcase-wrapper {
+  margin-top: 170px;
+}
+
+.tracks-overflow {
+  overflow-x: hidden;
+}
+
+.tracks-list {
+  margin-bottom: 64px;
+  display: flex;
+  flex-direction: row;
+  white-space: nowrap;
+  gap: 10px;
+}
+
+.tracks-list:first-child {
+  padding-left: 40%;
+}
+
+.track {
+  flex-shrink: 0;
+  width: 300px;
+  height: 300px;
+  background: #aaa;
+  overflow: hidden;
+  border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
+}
+
+.current {
+  margin-bottom: 77px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.current-name {
+  color: #fff;
+  font-family: Poppins;
+  font-size: 36px;
+  font-weight: 800;
+  line-height: 36px;
+  text-align: center;
+}
+
+.current-artist {
+  color: #fff;
+  font-family: Nunito Sans;
+  font-size: 17px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 23px;
+  letter-spacing: 0em;
+  text-align: center;
+}
+
+.controls {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 40px;
+}
+
+.control-button {
+  background: none;
+  border: none;
+  width: 50px;
+  height: 50px;
+  color: #fff;
+  cursor: pointer;
+  transition: .3s ease-in-out;
+  -webkit-transition: .3s ease-in-out;
+  -moz-transition: .3s ease-in-out;
+  -ms-transition: .3s ease-in-out;
+  -o-transition: .3s ease-in-out;
+}
+
+.control-button:hover {
+  opacity: 0.8;
+}
