@@ -138,7 +138,7 @@ router.get('/playlist/tracks', (req, res) => {
 		
 		try {
 			let payload = []; 
-			raw.items.forEach(item => payload.push(item));
+			raw.items.forEach(item => payload.push(item.track));
 			// for (let i = 0; i < raw.items.length; i++) {
 			// 	payload.push({
 			// 		id: raw.items[i].id,
