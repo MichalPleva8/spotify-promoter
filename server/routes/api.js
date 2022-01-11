@@ -116,6 +116,36 @@ router.get('/playlists', (req, res) => {
 	});
 });
 
+router.post('/playlist/follow', (req, res) => {
+	const token = req.headers.key || req.query.token;
+
+	// Params for request
+	let playlistId = req.query.pid || "";
+	
+	const requestUri = `https://api.spotify.com/v1/playlists/${playlistId}/followers`;
+	const requestBody = { "public": false };
+	const requestHeaders = {
+		"Accept": "application/json",
+		"Content-Type": "application/json",
+		"Authorization": `Bearer ${token}`
+	};
+
+	request.put(requestUri, { headers: requestHeaders, body: requestBody }, (error, response, body) => {
+		if (error) { res.status(400).json({ error: 'Bad request to Spotify Api', message: error }); return; }
+			
+		let raw = JSON.parse(body)
+		console.log(raw);
+		
+		try {
+			let payload = []; 
+
+			res.status(200).json(payload);
+		} catch (error) {
+			res.status(400).json({ error: 'noresponse', message: error})
+		}
+	});
+})
+
 router.get('/playlist/tracks', (req, res) => {
 	const token = req.headers.key || req.query.token;
 

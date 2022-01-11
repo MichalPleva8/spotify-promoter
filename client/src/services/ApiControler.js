@@ -83,6 +83,16 @@ class ApiControler {
 		return json;
 	} 
 
+	followPlaylist = async (playlistId) => {
+		let requestPlaylistId = playlistId;
+
+		let options = { method: 'POST', headers: { "key": this.accessToken } };
+		const response = await fetch(`http://localhost:5000/api/playlist/follow?pid=${requestPlaylistId}`, options);
+		const json = await response.json();
+
+		return json;
+	}
+
 	getPlayback = async () => {
 		let options = { headers: { "key": this.accessToken } };
 		const response = await fetch("http://localhost:5000/api/playback", options);

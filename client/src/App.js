@@ -28,6 +28,7 @@ function App() {
     <div className="App">
       {me.username && <Nav user={me} logout={logout} />}
       {me.username ? <Showcase /> : <Login />}
+      <div className="bg"></div>
     </div>
   );
 }

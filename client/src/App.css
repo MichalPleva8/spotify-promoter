@@ -1,7 +1,18 @@
 body, html {
 	font-family: 'Poppins';
 	color: #f1f1f1;
-	background: #121212;
+	/* background: #121212; */
+}
+
+.bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -10;
+
+  background-image: url("./assets/bg.jpg");
+  background-size: cover;
 }
 
 .hero-solid {
@@ -177,7 +188,7 @@ body, html {
 }
 
 .showcase-wrapper {
-  margin-top: 170px;
+  margin-top: 70px;
 }
 
 .tracks-overflow {
@@ -208,6 +219,7 @@ body, html {
   -moz-border-radius: 8px;
   -ms-border-radius: 8px;
   -o-border-radius: 8px;
+  cursor: pointer;
 }
 
 .current {
@@ -261,4 +273,11 @@ body, html {
 
 .control-button:hover {
   opacity: 0.8;
+}
+
+/* lg */
+@media (min-width: 1024px) {
+  .showcase-wrapper {
+    margin-top: 170px;
+  }
 }
