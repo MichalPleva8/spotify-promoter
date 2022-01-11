@@ -5,7 +5,7 @@ body, html {
 }
 
 .bg {
-  position: absolute;
+  position: fixed;
   inset: 0;
   width: 100%;
   height: 100%;
@@ -273,6 +273,47 @@ body, html {
 
 .control-button:hover {
   opacity: 0.8;
+}
+
+/* Promote */
+.promote-wrapper {
+  margin: 100px 0;
+}
+
+.promote-grid {
+  margin-top: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.promote-grid-item {
+  background: none;
+  border: none;
+  width: 200px;
+  height: 200px;
+  overflow: hidden;
+  cursor: pointer;
+  border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
+  transition: .3s ease-in-out;
+  -webkit-transition: .3s ease-in-out;
+  -moz-transition: .3s ease-in-out;
+  -ms-transition: .3s ease-in-out;
+  -o-transition: .3s ease-in-out;
+}
+
+.promote-grid-item:hover {
+  opacity: 0.8;
+}
+
+.promote-grid-item img {
+  width: 100%;
 }
 
 /* lg */

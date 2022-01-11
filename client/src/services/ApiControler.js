@@ -3,6 +3,8 @@ class ApiControler {
 		this.accessToken = '';
 		this.refreshToken = '';
 		this.origin = window.location.origin;
+
+		this.setOrigin(); // Sets right url for api requests
 	}
 
 	setOrigin = () => {
@@ -29,8 +31,6 @@ class ApiControler {
 		let ls = localStorage;
 		let urlSearch = new URLSearchParams(window.location.search);
 
-		this.setOrigin(); // Sets right url for api requests
-
 		if (urlSearch.has('token')) {
 			this.setAccessToken(urlSearch.get('token'));
 			this.setRefreshToken(urlSearch.get('refresh'));
@@ -39,7 +39,7 @@ class ApiControler {
 			ls.setItem('refresh', urlSearch.get('refresh'));
 
 			// Clear Url in the browser window
-			window.history.pushState({}, document.title, "/");
+			window.history.pushState({}, document.title, window.location.pathname);
 		} else {
 			let storedToken = ls.getItem('token');
 			if (storedToken != null) {
