@@ -2,6 +2,13 @@ class ApiControler {
 	constructor() {
 		this.accessToken = '';
 		this.refreshToken = '';
+		this.origin = window.location.origin;
+	}
+
+	setOrigin = () => {
+		if (process.env.NODE_ENV === "development") {
+			this.origin = "http://localhost:5000";
+		}
 	}
 
 	setAccessToken = (token) => {
@@ -13,8 +20,8 @@ class ApiControler {
 	} 
 
 	logout = () => {
-		this.accessToken = '';
-		this.refreshToken = '';
+		this.setAccessToken('');
+		this.setRefreshToken('');
 		localStorage.clear();
 	}
 
@@ -22,9 +29,11 @@ class ApiControler {
 		let ls = localStorage;
 		let urlSearch = new URLSearchParams(window.location.search);
 
+		this.setOrigin(); // Sets right url for api requests
+
 		if (urlSearch.has('token')) {
-			this.accessToken = urlSearch.get('token');
-			this.refreshToken = urlSearch.get('refresh');
+			this.setAccessToken(urlSearch.get('token'));
+			this.setRefreshToken(urlSearch.get('refresh'));
 
 			ls.setItem('token', urlSearch.get('token'));
 			ls.setItem('refresh', urlSearch.get('refresh'));
@@ -34,8 +43,8 @@ class ApiControler {
 		} else {
 			let storedToken = ls.getItem('token');
 			if (storedToken != null) {
-				this.accessToken = storedToken;
-				this.refreshToken = ls.getItem('refresh');
+				this.setAccessToken(storedToken);
+				this.setRefreshToken(ls.getItem('refresh'));
 			}
 		}
 
@@ -43,7 +52,7 @@ class ApiControler {
 
 	getMe = async () => {
 		let options = { headers: { "key": this.accessToken } };
-		const response = await fetch(`http://localhost:5000/api/me`, options);
+		const response = await fetch(`${this.origin}/api/me`, options);
 		const json = await response.json();
 
 		return json;
@@ -54,7 +63,7 @@ class ApiControler {
 		let requestOffset = offset || 0;
 
 		let options = { headers: { "key": this.accessToken } };
-		const response = await fetch(`http://localhost:5000/api/songs?market=SK&limit=${requestLimit}&offset=${requestOffset}`, options);
+		const response = await fetch(`${this.origin}/api/songs?market=SK&limit=${requestLimit}&offset=${requestOffset}`, options);
 		const json = await response.json();
 
 		return json;
@@ -65,7 +74,7 @@ class ApiControler {
 		let requestOffset = offset || 0;
 
 		let options = { headers: { "key": this.accessToken } };
-		const response = await fetch(`http://localhost:5000/api/playlists?limit=${requestLimit}&offset=${requestOffset}`, options);
+		const response = await fetch(`${this.origin}/api/playlists?limit=${requestLimit}&offset=${requestOffset}`, options);
 		const json = await response.json();
 
 		return json;
@@ -77,7 +86,7 @@ class ApiControler {
 		let requestOffset = offset || 0;
 
 		let options = { headers: { "key": this.accessToken } };
-		const response = await fetch(`http://localhost:5000/api/playlist/tracks?pid=${requestPlaylistId}&limit=${requestLimit}&offset=${requestOffset}`, options);
+		const response = await fetch(`${this.origin}/api/playlist/tracks?pid=${requestPlaylistId}&limit=${requestLimit}&offset=${requestOffset}`, options);
 		const json = await response.json();
 
 		return json;
@@ -87,7 +96,7 @@ class ApiControler {
 		let requestPlaylistId = playlistId;
 
 		let options = { method: 'POST', headers: { "key": this.accessToken } };
-		const response = await fetch(`http://localhost:5000/api/playlist/follow?pid=${requestPlaylistId}`, options);
+		const response = await fetch(`${this.origin}/api/playlist/follow?pid=${requestPlaylistId}`, options);
 		const json = await response.json();
 
 		return json;
@@ -95,7 +104,7 @@ class ApiControler {
 
 	getPlayback = async () => {
 		let options = { headers: { "key": this.accessToken } };
-		const response = await fetch("http://localhost:5000/api/playback", options);
+		const response = await fetch(`${this.origin}/api/playback`, options);
 		const json = await response.json();
 
 		return json;
@@ -103,7 +112,7 @@ class ApiControler {
 
 	skipSong = async () => {
 		let options = { headers: { "key": this.accessToken } };
-		const response = await fetch("http://localhost:5000/api/skip", options);
+		const response = await fetch(`${this.origin}/api/skip`, options);
 		const json = await response.json();
 
 		return json;
@@ -111,7 +120,7 @@ class ApiControler {
 
 	prevSong = async () => {
 		let options = { headers: { "key": this.accessToken } };
-		const response = await fetch("http://localhost:5000/api/prev", options);
+		const response = await fetch(`${this.origin}/api/prev`, options);
 		const json = await response.json();
 
 		return json;
