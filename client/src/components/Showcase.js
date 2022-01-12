@@ -92,7 +92,6 @@ function TracksList({ tracks, setIsPlaying }) {
 	);
 }
 
-
 function Showcase(props) {
 	const [tracks, setTracks] = useState(null);
 	const [isPlaying, setIsPlaying] = useState(false);

@@ -37,6 +37,15 @@ body, html {
   text-align: center;
 }
 
+.login-lg {
+  font-family: Poppins;
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 36px;
+  text-align: center;
+}
+
 .login-text {
   max-width: 600px;
   color: #ddd;
@@ -325,6 +334,75 @@ body, html {
 .promote-grid-item img {
   width: 100%;
 }
+
+.selected {
+  background: rgba( 144, 19, 254, 0.25 );
+  box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+  backdrop-filter: blur( 4px );
+  -webkit-backdrop-filter: blur( 4px );
+  border: 1px solid rgba( 255, 255, 255, 0.18 );
+  border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
+}
+
+.accept-wrapper {
+  width: 300px;
+  margin: 40px auto;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+
+  text-align: center;
+}
+
+.accept-image {
+  width: 300px;
+  height: 300px;
+  overflow: hidden;
+  border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
+}
+
+.accept-author {
+  margin-top: 12px;
+  font-family: 'Nunito Sans';
+}
+
+.accept-group {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
+.accept-primary {
+  border: none !important;
+  background: #1DD954 !important;
+}
+
+.accept-button {
+  border: none;
+  background: none;
+
+  color: #ccf2d7;
+  padding: 10px 45px;
+  border: 2px solid #ccf2d7;
+  border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
+  cursor: pointer;
+}
+
 
 /* lg */
 @media (max-width: 1024px) {
