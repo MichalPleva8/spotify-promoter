@@ -98,7 +98,13 @@ function Showcase(props) {
 	const [pagination, setPagination] = useState(0);
 
 	useEffect(() => {
-		api.getPlaylistTracks("37i9dQZF1DX76t638V6CA8", 10, 2)
+		let pid = "37i9dQZF1DX76t638V6CA8";
+		let params = new URLSearchParams(window.location.search);
+		if (params.has('pid')) {
+			pid = params.get('pid');
+		}
+
+		api.getPlaylistTracks(pid, 10, 2)
 			.then(result => {
 				setTracks(result);
 				player.setSource(result[0].preview_url);

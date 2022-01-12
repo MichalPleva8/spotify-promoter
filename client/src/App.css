@@ -20,6 +20,81 @@ body, html {
 	height: 20px;
 }
 
+.hero-stroke {
+	width: 25px;
+	height: 25px;
+}
+
+.h-stack {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.gap-20 {
+  gap: 20px;
+}
+
+/* Nav */
+.nav {
+  width: 100%;
+}
+
+.nav-wrapper {
+	padding: 35px 45px;
+} 
+
+.profile {
+	display: flex;
+	flex-direction: row;
+	gap: 15px;
+}
+
+.logout {
+  background: none;
+  border: none;
+}
+
+.profile-pic {
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	-ms-border-radius: 50%;
+	-o-border-radius: 50%;
+	cursor: pointer;
+}
+
+.profile-content {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: center;
+	gap: 6px;
+}
+
+.profile-text {
+	font-family: 'Nunito Sans';
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 17px;
+	text-align: left;
+}
+
+.author-link {
+	color: #1DD954;
+	font-family: Nunito Sans;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 14px;
+	text-align: left;
+	text-decoration: none;
+}
+
 /* Login */
 .login-wrapper {
   display: flex;
@@ -42,7 +117,7 @@ body, html {
   font-size: 36px;
   font-style: normal;
   font-weight: 800;
-  line-height: 36px;
+  line-height: 43px;
   text-align: center;
 }
 
@@ -202,7 +277,6 @@ body, html {
 /* Showcase */
 .showcase {
   width: 100%;
-  margin-top: 120px; /* Fixes Navigation's(postition: fixed) */
 }
 
 .showcase-wrapper {
@@ -349,8 +423,8 @@ body, html {
 }
 
 .accept-wrapper {
-  width: 300px;
-  margin: 40px auto;
+  width: 450px;
+  margin: 75px auto;
 
   display: flex;
   flex-direction: column;
@@ -380,29 +454,34 @@ body, html {
 .accept-group {
   display: flex;
   flex-direction: row;
-  gap: 5px;
+  gap: 8px;
 }
 
-.accept-primary {
-  border: none !important;
-  background: #1DD954 !important;
-}
-
-.accept-button {
+.accept-unselect {
   border: none;
   background: none;
-
-  color: #ccf2d7;
-  padding: 10px 45px;
-  border: 2px solid #ccf2d7;
-  border-radius: 8px;
-  -webkit-border-radius: 8px;
-  -moz-border-radius: 8px;
-  -ms-border-radius: 8px;
-  -o-border-radius: 8px;
   cursor: pointer;
+  color: #fff;
 }
 
+.accept-action {
+  border: none !important;
+  cursor: pointer;
+
+  padding: 5px 10px;
+  color: #222;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+}
 
 /* lg */
 @media (max-width: 1024px) {
