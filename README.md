@@ -1,7 +1,5 @@
 # Spotify Promoter 
 
-<!-- <img src="" alt="preview of app" /> -->
-
 <img src="/docs/preview.png" alt="App preview" />
 
 Promoter is a web app made to promote your Spotify Playlist!
@@ -16,6 +14,8 @@ You can promote your playlist by doing this 4 easy steps:
 2. Select playlist that you want to promote 
 3. Enter url shortcut for your Showcase && Accept
 4. Now you can share a link that apeares on your screen
+
+<img src="/docs/share.jpg" alt="Share preview" />
 
 # How to Install and Run the Project ? 
 
