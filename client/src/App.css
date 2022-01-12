@@ -71,6 +71,15 @@ body, html {
   cursor: pointer;
 }
 
+.login-dev {
+  position: absolute;
+  bottom: 40px;
+  opacity: 0.2;
+}
+
+.login-dev a {
+  color: #fff;
+}
 
 /* Header */
 .header {
@@ -290,6 +299,7 @@ body, html {
 }
 
 .promote-grid-item {
+  flex: 0 0 15%;
   background: none;
   border: none;
   width: 200px;
@@ -317,7 +327,7 @@ body, html {
 }
 
 /* lg */
-@media (min-width: 1024px) {
+@media (max-width: 1024px) {
   .showcase-wrapper {
     margin-top: 170px;
   }
