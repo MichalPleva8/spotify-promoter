@@ -1,0 +1,22 @@
+{
+  "name": "spotify-clone",
+  "version": "1.0.0",
+  "description": "<!-- <img src=\"\" alt=\"preview of app\" /> -->",
+  "main": "app.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "start": "cd ./server && node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MichalPleva8/spotify-clone.git"
+  },
+  "author": "Michal Pleva",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MichalPleva8/spotify-clone/issues"
+  },
+  "homepage": "https://github.com/MichalPleva8/spotify-clone#readme"
+}
