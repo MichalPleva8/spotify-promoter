@@ -2,7 +2,7 @@
 
 <!-- <img src="" alt="preview of app" /> -->
 
-<img src="/docs/preview.png" alt="App preview" width="85%" />
+<img src="/docs/preview.png" alt="App preview" />
 
 Promoter is a web app made to promote your Spotify Playlist!
 - Main idea of Promoter is to get taste of music by 30s preview of each song in playlist
