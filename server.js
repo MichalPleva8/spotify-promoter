@@ -4,7 +4,6 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const dotenv = require('dotenv').config();
 const request = require('request');
-const session = require('express-session');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -15,7 +14,6 @@ const credentials = {
 	redirect_uri: ''
 }
 
-app.use(session({ resave: false, secret: process.env.SUPER_SECRET, saveUninitialized: true }));
 app.use(express.static(path.join(__dirname, 'build')));
 app.use(bodyParser.urlencoded({ extended: false}));
 app.use(bodyParser.json());
@@ -105,9 +103,6 @@ app.get('/auth/callback', (req, res) => {
 		json: true
 	}, (error, response, body) => {
 		if (!error && response.statusCode === 200) {
-			req.session.accessToken = body.access_token;
-			req.session.refreshToken = body.refresh_token;
-			req.session.save();
 
 			setTimeout(() => {
 				request.get('http://localhost:5000/auth/refresh');
@@ -137,11 +132,9 @@ app.get('/auth/refresh', (req, res) => {
 		json: true
 		}, (error, response, body) => {
 			if (!error && response.statusCode === 200) {
-				req.session.accessToken = body.access_token;
-				req.session.save();
 
 				console.log("Token has been refreshed");
-				res.end();
+				res.json(body);
 			} else {
 				console.error(error);
 				res.redirect('/?error=notrefreshed');
