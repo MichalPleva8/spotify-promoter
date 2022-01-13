@@ -2,6 +2,9 @@
 
 <img src="/docs/preview.png" alt="App preview" />
 
+You can try this app on [spotify-promoter.herokuapp.com](https://spotify-promoter.herokuapp.com/)
+* Website is in (beta version) so promoting is not working but you can try the showcase
+
 Promoter is a web app made to promote your Spotify Playlist!
 - Main idea of Promoter is to get taste of music by 30s preview of each song in playlist
 - It show your music in beautiful coverflow view
