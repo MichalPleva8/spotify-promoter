@@ -67,15 +67,15 @@ app.get('/auth/login', (req, res) => {
 		redirectUri = req.query.redirect;
 	}
 
-	if (process.env.NODE_ENV === 'production') {
-		credentials.redirect_uri = req.query.redirect + '/auth/callback'
-	} 
+	// if (process.env.NODE_ENV === 'production') {
+	// 	credentials.redirect_uri = req.query.redirect + '/auth/callback'
+	// } 
 
 	let authParams = new URLSearchParams({
 		response_type: 'code',
 		client_id: credentials.client_id,
 		scope: 'ugc-image-upload user-read-playback-state user-modify-playback-state user-read-currently-playing user-read-private user-read-email user-follow-modify user-follow-read user-library-modify user-library-read streaming app-remote-control user-read-playback-position user-top-read user-read-recently-played playlist-modify-private playlist-read-collaborative playlist-read-private playlist-modify-public',
-		redirect_uri: credentials.redirect_uri,
+		redirect_uri: 'https://spotify-promoter.herokuapp.com/auth/callback/',
 		state: generateRandomString(16)
 	});
 
