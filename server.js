@@ -32,20 +32,17 @@ let checkAccessToken = (req, res, next) => {
 
 app.use(checkAccessToken)
 
-// Serve React file 
-// app.get('/', (req, res) => {
-// 	res.sendFile(path.join(__dirname, "build", "index.html"));
-// });
-
-// Api 
+// Routing
 const apiRouter = require('./routes/api');
 const authRouter = require('./routes/auth');
-
 app.use('/api', apiRouter, checkAccessToken);
 app.use('/auth', authRouter);
 
+// Load React 
+app.get('/', (req, res) => {
+	res.sendFile(path.join(__dirname, "build", "index.html"));
+});
 
-// Handle default
 app.get('*', (req, res) => {
 	res.sendFile(path.join(__dirname, "build", "index.html"));
 });
