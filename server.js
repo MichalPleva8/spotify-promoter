@@ -91,7 +91,7 @@ app.get('/auth/callback', (req, res) => {
 	let requestUrl = 'https://accounts.spotify.com/api/token';
 	let requestData = {
 		code,
-		redirect_uri: credentials.redirect_uri,
+		redirect_uri: 'https://spotify-promoter.herokuapp.com/auth/callback/',
 		grant_type: 'authorization_code',
 		client_id: credentials.client_id,
 		client_secret: credentials.client_secret
