@@ -67,6 +67,9 @@ app.get('/auth/login', (req, res) => {
 		redirectUri = req.query.redirect;
 	}
 
+	if (process.env.NODE_ENV === 'production') {
+		credentials.redirect_uri = req.query.redirect + '/auth/callback'
+	} 
 
 	let authParams = new URLSearchParams({
 		response_type: 'code',
