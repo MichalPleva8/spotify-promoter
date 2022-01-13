@@ -121,7 +121,7 @@ app.get('/auth/refresh', (req, res) => {
 	let requestUrl = 'https://accounts.spotify.com/api/token';
 	let requestData = {
 		grant_type: 'refresh_token',
-		refresh_token: req.session.refreshToken
+		refresh_token: req.query.refreshToken
 	};
 	let requestHeaders = { "Authorization": 'Basic ' + buffer, "Content-Type": "application/x-www-form-urlencoded"};
 
