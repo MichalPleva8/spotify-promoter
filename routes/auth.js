@@ -26,15 +26,16 @@ router.get('/login', (req, res) => {
 		redirectUri = req.query.redirect;
 	}
 
-	// if (process.env.NODE_ENV === 'production') {
-	// 	credentials.redirect_uri = req.query.redirect + '/auth/callback'
-	// } 
+	if (process.env.NODE_ENV === 'production') {
+		credentials.redirect_uri = 'https://spotify-promoter.herokuapp.com/auth/callback/';
+		redirectUri = '/';
+	} 
 
 	let authParams = new URLSearchParams({
 		response_type: 'code',
 		client_id: credentials.client_id,
 		scope: 'ugc-image-upload user-read-playback-state user-modify-playback-state user-read-currently-playing user-read-private user-read-email user-follow-modify user-follow-read user-library-modify user-library-read streaming app-remote-control user-read-playback-position user-top-read user-read-recently-played playlist-modify-private playlist-read-collaborative playlist-read-private playlist-modify-public',
-		redirect_uri: 'https://spotify-promoter.herokuapp.com/auth/callback/',
+		redirect_uri: credentials.redirect_uri,
 		state: generateRandomString(16)
 	});
 
@@ -50,7 +51,7 @@ router.get('/callback', (req, res) => {
 	let requestUrl = 'https://accounts.spotify.com/api/token';
 	let requestData = {
 		code,
-		redirect_uri: 'https://spotify-promoter.herokuapp.com/auth/callback/',
+		redirect_uri: credentials.redirect_uri,
 		grant_type: 'authorization_code',
 		client_id: credentials.client_id,
 		client_secret: credentials.client_secret
@@ -71,9 +72,9 @@ router.get('/callback', (req, res) => {
 				request.get('http://localhost:5000/auth/refresh');
 			}, body.expires_in);
 
-			res.redirect(`/?token=${body.access_token}&refresh=${body.refresh_token}`);
+			res.redirect(`${redirectUri}?token=${body.access_token}&refresh=${body.refresh_token}`);
 		} else {
-			res.redirect(`/?error=invalid`);
+			res.redirect(`${redirectUri}?error=invalid`);
 		}
 	});
 });
