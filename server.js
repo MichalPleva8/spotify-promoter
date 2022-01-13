@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 5000;
 const credentials = {
 	client_id: process.env.CLIENT_ID,
 	client_secret: process.env.CLIENT_SECRET,
-	redirect_uri: ''
+	redirect_uri: 'http://localhost:5000/auth/callback/'
 }
 
 app.use(express.static(path.join(__dirname, 'build')));
@@ -71,7 +71,7 @@ app.get('/auth/login', (req, res) => {
 		response_type: 'code',
 		client_id: credentials.client_id,
 		scope: 'ugc-image-upload user-read-playback-state user-modify-playback-state user-read-currently-playing user-read-private user-read-email user-follow-modify user-follow-read user-library-modify user-library-read streaming app-remote-control user-read-playback-position user-top-read user-read-recently-played playlist-modify-private playlist-read-collaborative playlist-read-private playlist-modify-public',
-		redirect_uri: 'http://localhost:5000/auth/callback/',
+		redirect_uri: credentials.redirect_uri,
 		state: generateRandomString(16)
 	});
 
@@ -87,7 +87,7 @@ app.get('/auth/callback', (req, res) => {
 	let requestUrl = 'https://accounts.spotify.com/api/token';
 	let requestData = {
 		code,
-		redirect_uri: 'http://localhost:5000/auth/callback/',
+		redirect_uri: credentials.redirect_uri,
 		grant_type: 'authorization_code',
 		client_id: credentials.client_id,
 		client_secret: credentials.client_secret
