@@ -67,9 +67,6 @@ app.get('/auth/login', (req, res) => {
 		redirectUri = req.query.redirect;
 	}
 
-	if (process.env.NODE_ENV === 'production') {
-		credentials.redirect_uri = "/auth/callback";
-	}
 
 	let authParams = new URLSearchParams({
 		response_type: 'code',
@@ -112,9 +109,9 @@ app.get('/auth/callback', (req, res) => {
 				request.get('http://localhost:5000/auth/refresh');
 			}, body.expires_in);
 
-			res.redirect(`${redirectUri}?token=${body.access_token}&refresh=${body.refresh_token}`);
+			res.redirect(`/?token=${body.access_token}&refresh=${body.refresh_token}`);
 		} else {
-			res.redirect(`${redirectUri}?error=invalid`);
+			res.redirect(`/?error=invalid`);
 		}
 	});
 });
