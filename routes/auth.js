@@ -72,6 +72,7 @@ router.get('/callback', (req, res) => {
 				request.get('http://localhost:5000/auth/refresh');
 			}, body.expires_in);
 
+			console.log(redirectUri);
 			res.redirect(`${redirectUri}?token=${body.access_token}&refresh=${body.refresh_token}`);
 		} else {
 			res.redirect(`${redirectUri}?error=invalid`);
