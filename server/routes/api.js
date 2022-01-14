@@ -116,10 +116,12 @@ router.get('/playlists', (req, res) => {
 
 				res.status(200).json(payload);
 			} catch (error) {
+				console.error(error);
 				res.status(400).json(error)
 			}
 		});
 	} catch (error) {
+		console.error(error);
 		res.status(400).json({ error: 'invalid_token', message: error });
 	}
 });
