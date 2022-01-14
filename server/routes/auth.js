@@ -20,15 +20,23 @@ let generateRandomString = (length) => {
   return text;
 };
 
-let redirectUri = '';
+let redirectTo = '';
+let redirectPath = '';
 router.get('/login', (req, res) => {
 	if (req.query.redirect != '') {
-		redirectUri = req.query.redirect;
+		redirectTo = req.query.redirect + req.query.path;
 	}
+
+	// redirectTo = `${req.protocol}://${req.get('host')}${req.url}`;
+
+	// console.log("Protocol is:", req.protocol);
+	// console.log("Path is:", req.url);
+	// console.log("Host is:", req.get('host'));
+	// console.log("Origin is:", req.get('host'));
 
 	if (process.env.NODE_ENV === 'production') {
 		credentials.redirect_uri = 'https://spotify-promoter.herokuapp.com/auth/callback/';
-		redirectUri = '/';
+		redirectTo = req.query.path || "/";
 	} 
 
 	let authParams = new URLSearchParams({
@@ -72,10 +80,10 @@ router.get('/callback', (req, res) => {
 				request.get('http://localhost:5000/auth/refresh');
 			}, body.expires_in);
 
-			console.log(redirectUri);
-			res.redirect(`${redirectUri}?token=${body.access_token}&refresh=${body.refresh_token}`);
+			console.log(redirectTo);
+			res.redirect(`${redirectTo}?token=${body.access_token}&refresh=${body.refresh_token}`);
 		} else {
-			res.redirect(`${redirectUri}?error=invalid`);
+			res.redirect(`${redirectTo}?error=invalid`);
 		}
 	});
 });

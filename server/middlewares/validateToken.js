@@ -1,5 +1,5 @@
 module.exports = function checkAccessToken(req, res, next) {
-	let logging = true; 
+	let logging = false; 
 
 	if (req.path.includes("api")) {
 		if (logging) {

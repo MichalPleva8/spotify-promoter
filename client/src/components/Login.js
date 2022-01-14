@@ -3,11 +3,12 @@ import '../App.css';
 
 function Login() {
 	let path = window.location.pathname;
-	let host = window.location.origin + path;
-	let authUrl = `http://localhost:5000/auth/login?redirect=${host}`;
+	let host = window.location.origin; // gives http://
+	let authUrl = `http://localhost:5000/auth/login?redirect=${host}&path=${path}`;
+	// let authUrl = `http://localhost:5000/auth/login`;
 
 	if (process.env.NODE_ENV === 'production') {
-		authUrl = window.location.origin + `/auth/login?redirect=${host}`;
+		authUrl = window.location.origin + `/auth/login?path=${path}`;
 	}
 
 	let header, text;
@@ -34,7 +35,6 @@ function Login() {
 
 			<span className="login-dev">
 				Coded by Michal Pleva | Source code: <a target="_blank" href="https://github.com/MichalPleva8/spotify-promoter">Github project</a>
-				{/* Source: <a href="https://github.com/MichalPleva8/spotify-promoter">www.github.com/MichalPleva8/spotify-promoter</a></span> */}
 			</span>
 		</div>
 	)
