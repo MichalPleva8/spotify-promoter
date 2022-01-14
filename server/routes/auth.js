@@ -36,7 +36,7 @@ router.get('/login', (req, res) => {
 
 	if (process.env.NODE_ENV === 'production') {
 		credentials.redirect_uri = 'https://spotify-promoter.herokuapp.com/auth/callback/';
-		redirectTo = req.query.path || "/";
+		redirectTo = req.query.path || "/promote";
 	} 
 
 	let authParams = new URLSearchParams({

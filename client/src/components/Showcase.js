@@ -4,7 +4,7 @@ import Player from '../services/Player.js';
 
 let player;
 
-function Controls({ isPlaying, setIsPlaying, pagination, setPagination }) {
+function Controls({ isPlaying, setIsPlaying, pagination, setPagination, handlePaginationChange }) {
 	let slider = document.querySelector('#slider');
 
 	let prevTrack = () => {
@@ -17,6 +17,8 @@ function Controls({ isPlaying, setIsPlaying, pagination, setPagination }) {
 	let togglePlayback = () => {
 		isPlaying ? player.pause() : player.play();
 		setIsPlaying(!isPlaying);
+
+		handlePaginationChange();
 	}
 
 	let likeTrack = (target) => {
@@ -100,6 +102,13 @@ function Showcase(props) {
 	const [pagination, setPagination] = useState(0);
 	const [current, setCurrent] = useState({ name: '', artist: '' });
 
+	let handlePaginationChange = () => {
+		if (tracks != null && tracks.length > 0) {
+			let index = pagination;
+			setCurrent({ name: tracks[index].name, artist: tracks[index].artists[0].name })
+		}
+	}
+
 	useEffect(async () => {
 		let pid = "37i9dQZF1DX76t638V6CA8";
 		let params = new URLSearchParams(window.location.search);
@@ -144,13 +153,14 @@ function Showcase(props) {
 				</div>
 				<div className="current">
 					<h3 className="current-name">{current.name != "" ? current.name : "Start your Jurney"}</h3>
-					<h3 className="current-artist">{current.artist != "" ? current.artist : "by clicking play"}</h3>
+					<h3 className="current-artist">{current.artist != "" ? current.artist : "by click of a play button"}</h3>
 				</div>
 				<Controls
 					isPlaying={isPlaying}
 					setIsPlaying={setIsPlaying}
 					pagination={pagination}
 					setPagination={setPagination}
+					handlePaginationChange={handlePaginationChange}
 				/>
 			</div>
 		</div>
