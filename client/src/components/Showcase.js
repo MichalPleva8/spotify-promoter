@@ -19,10 +19,12 @@ function Controls({ isPlaying, setIsPlaying, pagination, setPagination }) {
 		setIsPlaying(!isPlaying);
 	}
 
-	let likeTrack = () => {
-		api.followPlaylist()
-			.then(result => console.log(result))
-			.catch(error => console.error(error));
+	let likeTrack = (target) => {
+		// api.followPlaylist()
+		// 	.then(result => console.log(result))
+		// 	.catch(error => console.error(error));
+
+		target.classList.toggle('liked');
 	}
 
 	let nextTrack = () => {
@@ -51,7 +53,7 @@ function Controls({ isPlaying, setIsPlaying, pagination, setPagination }) {
 				</svg>
 			</button>
 			}
-			<button onClick={() => likeTrack()} className="control-button">
+			<button onClick={(event) => likeTrack(event.target)} className="control-button">
 				<svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
 				<path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
 				</svg>
@@ -96,15 +98,16 @@ function Showcase(props) {
 	const [tracks, setTracks] = useState(null);
 	const [isPlaying, setIsPlaying] = useState(false);
 	const [pagination, setPagination] = useState(0);
+	const [current, setCurrent] = useState({ name: '', artist: '' });
 
-	useEffect(() => {
+	useEffect(async () => {
 		let pid = "37i9dQZF1DX76t638V6CA8";
 		let params = new URLSearchParams(window.location.search);
 		if (params.has('pid')) {
 			pid = params.get('pid');
 		}
 
-		api.getPlaylistTracks(pid, 10, 2)
+		await api.getPlaylistTracks(pid, 10, 2)
 			.then(result => {
 				setTracks(result);
 				player.setSource(result[0].preview_url);
@@ -114,7 +117,7 @@ function Showcase(props) {
 
 	}, [])
 
-	useEffect(() => {
+	useEffect(async () => {
 		if (tracks) {
 			if (pagination < tracks.length) {
 				player.setSource(tracks[pagination].preview_url);
@@ -122,7 +125,13 @@ function Showcase(props) {
 			player.play();
 			setIsPlaying(true);
 		}
+
+		if (tracks != null && tracks.length > 0) {
+			let index = pagination;
+			await setCurrent({ name: tracks[index].name, artist: tracks[index].artists[0].name })
+		}
 	}, [pagination])
+
 
 	return (
 		<div className="showcase">
@@ -134,8 +143,8 @@ function Showcase(props) {
 					</div>
 				</div>
 				<div className="current">
-					<h3 className="current-name">Skip</h3>
-					<h3 className="current-artist">Arai & Dj Khalid</h3>
+					<h3 className="current-name">{current.name != "" ? current.name : "Start your Jurney"}</h3>
+					<h3 className="current-artist">{current.artist != "" ? current.artist : "by clicking play"}</h3>
 				</div>
 				<Controls
 					isPlaying={isPlaying}

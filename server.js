@@ -6,30 +6,13 @@ const dotenv = require('dotenv').config();
 const request = require('request');
 const app = express();
 
+const checkAccessToken = require('./middlewares/validateToken');
 
 // Middleware
 app.use(express.static(path.join(__dirname, 'build')));
 app.use(bodyParser.urlencoded({ extended: false}));
 app.use(bodyParser.json());
 app.use(cors());
-
-let checkAccessToken = (req, res, next) => {
-	let logging = false; 
-
-	if (req.path.includes("api")) {
-		if (logging) {
-			console.log(`-> Path: ${req.path}, Has token: ${req.query.token != undefined || req.headers.key != undefined}`);
-		}
-
-		if (req.query.token === undefined && req.headers.key == undefined) {
-			res.status(401).json({ error: "Access Token not provided", statusCode: 401 })
-			return;
-		}
-	}
-
-	next();
-}
-
 app.use(checkAccessToken)
 
 // Routing
@@ -39,15 +22,15 @@ app.use('/api', apiRouter, checkAccessToken);
 app.use('/auth', authRouter);
 
 // Load React 
+app.get('*', (req, res) => {
+	res.sendFile(path.join(__dirname, "build", "index.html"));
+});
+
 app.get('/', (req, res) => {
 	res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
 app.get('/promote', (req, res) => {
-	res.sendFile(path.join(__dirname, "build", "index.html"));
-});
-
-app.get('*', (req, res) => {
 	res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
