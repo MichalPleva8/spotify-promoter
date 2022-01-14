@@ -1,4 +1,5 @@
 const express = require('express');
+const dotenv = require('dotenv').config();
 const router = express.Router();
 const request = require('request');
 
@@ -36,7 +37,8 @@ router.get('/login', (req, res) => {
 
 	if (process.env.NODE_ENV === 'production') {
 		credentials.redirect_uri = 'https://spotify-promoter.herokuapp.com/auth/callback/';
-		redirectTo = req.query.path || "/promote";
+		// redirectTo = req.query.path || "/promote";
+		redirectTo = req.query.action;
 	} 
 
 	let authParams = new URLSearchParams({

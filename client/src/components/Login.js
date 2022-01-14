@@ -8,7 +8,14 @@ function Login() {
 	// let authUrl = `http://localhost:5000/auth/login`;
 
 	if (process.env.NODE_ENV === 'production') {
-		authUrl = window.location.origin + `/auth/login?path=${path}`;
+		// let action = ""
+		// if (path === "promote") {
+		// 	action = "promote";
+		// } else {
+		// 	action = "showcase";
+		// }
+
+		authUrl = window.location.origin + `/auth/login?action=${path}`;
 	}
 
 	let header, text;
