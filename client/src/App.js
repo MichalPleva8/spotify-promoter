@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Nav, Login, Showcase, Promote } from './components/index.js';
 import ApiControler from './services/ApiControler.js';
 import './Normalizer.css';
@@ -9,6 +9,9 @@ let api = new ApiControler();
 function App() {
   const [me, setMe] = useState({});
   const [playlists, setPlaylists] = useState([]);
+  const [playlistOffset, setPlaylistsOffset] = useState(0);
+
+  let playlistLimit = 15;
 
   let path;
   window.onload = async () => {
@@ -22,10 +25,14 @@ function App() {
     }
 
     if (api.accessToken != "" && path === "/promote") {
-      api.getMyPlaylists(15, 0)
-        .then(result => setPlaylists(result))
+      api.getMyPlaylists(playlistLimit, playlistOffset)
+        .then(result => {setPlaylists(result); console.dir(result);})
         .catch(error => console.error(error));
     }
+  }
+
+  let loadPlaylists = () => {
+    setPlaylistsOffset(playlistOffset + playlistLimit);
   }
 
   let logout = () => {
@@ -39,7 +46,7 @@ function App() {
     if (path === '/' && me.username) {
       view = <Showcase />
     } else if (path === '/promote' && playlists.length > 0) {
-      view = <Promote playlists={playlists} />
+      view = <Promote playlists={playlists} loadPlaylists={loadPlaylists} />
     } else {
       view = <Login />
     }

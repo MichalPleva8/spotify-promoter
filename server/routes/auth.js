@@ -28,16 +28,8 @@ router.get('/login', (req, res) => {
 		redirectTo = req.query.redirect + req.query.path;
 	}
 
-	// redirectTo = `${req.protocol}://${req.get('host')}${req.url}`;
-
-	// console.log("Protocol is:", req.protocol);
-	// console.log("Path is:", req.url);
-	// console.log("Host is:", req.get('host'));
-	// console.log("Origin is:", req.get('host'));
-
 	if (process.env.NODE_ENV === 'production') {
 		credentials.redirect_uri = 'https://spotify-promoter.herokuapp.com/auth/callback/';
-		// redirectTo = req.query.path || "/promote";
 		redirectTo = req.query.path;
 	} 
 

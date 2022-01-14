@@ -437,6 +437,10 @@ body, html {
   -o-border-radius: 8px;
 }
 
+.load-button {
+  margin: 40px auto;
+}
+
 .accept-wrapper {
   /* width: 450px; */
   margin: 75px auto;

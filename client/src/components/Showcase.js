@@ -6,9 +6,10 @@ let player;
 
 function Controls({ isPlaying, setIsPlaying, pagination, setPagination, handlePaginationChange }) {
 	let slider = document.querySelector('#slider');
+	let slideBy = 310;
 
 	let prevTrack = () => {
-		slider.scrollBy({ left: -300, top: 0, behavior: 'smooth' });
+		slider.scrollBy({ left: -slideBy, top: 0, behavior: 'smooth' });
 		if (pagination > 0) {
 			setPagination(pagination - 1)
 		}
@@ -30,7 +31,7 @@ function Controls({ isPlaying, setIsPlaying, pagination, setPagination, handlePa
 	}
 
 	let nextTrack = () => {
-		slider.scrollBy({ left: 300, top: 0, behavior: 'smooth' });
+		slider.scrollBy({ left: slideBy, top: 0, behavior: 'smooth' });
 		if (pagination < 10) {
 			setPagination(pagination + 1)
 		}
@@ -100,17 +101,22 @@ function Showcase(props) {
 	const [tracks, setTracks] = useState(null);
 	const [isPlaying, setIsPlaying] = useState(false);
 	const [pagination, setPagination] = useState(0);
-	const [current, setCurrent] = useState({ name: '', artist: '' });
+	const [current, setCurrent] = useState({ name: "", artist: null });
 
 	let handlePaginationChange = () => {
 		if (tracks != null && tracks.length > 0) {
 			let index = pagination;
-			setCurrent({ name: tracks[index].name, artist: tracks[index].artists[0].name })
+			let artists = tracks[index].artists.map(item => {
+				return item.name;
+			});
+
+
+			setCurrent({ name: tracks[index].name, artist: artists.join(" & ") })
 		}
 	}
 
 	useEffect(async () => {
-		let pid = "37i9dQZF1DX76t638V6CA8";
+		let pid = "37i9dQZF1DX76t638V6CA8"; // Demo
 		let params = new URLSearchParams(window.location.search);
 		if (params.has('pid')) {
 			pid = params.get('pid');
@@ -135,10 +141,7 @@ function Showcase(props) {
 			setIsPlaying(true);
 		}
 
-		if (tracks != null && tracks.length > 0) {
-			let index = pagination;
-			await setCurrent({ name: tracks[index].name, artist: tracks[index].artists[0].name })
-		}
+		handlePaginationChange();
 	}, [pagination])
 
 
@@ -153,7 +156,7 @@ function Showcase(props) {
 				</div>
 				<div className="current">
 					<h3 className="current-name">{current.name != "" ? current.name : "Start your Jurney"}</h3>
-					<h3 className="current-artist">{current.artist != "" ? current.artist : "by click of a play button"}</h3>
+					<h3 className="current-artist">{current.artist != null ? current.artist : "with click of a play button"}</h3>
 				</div>
 				<Controls
 					isPlaying={isPlaying}
