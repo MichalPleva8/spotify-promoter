@@ -58,7 +58,7 @@ function Accept({ selected, unSelect }) {
 	)
 }
 
-function Grid({ playlists, select }) {
+function Grid({ playlists, select, loadPlaylists }) {
 	return (
 		<>
 			<div className="promote-grid">
@@ -70,12 +70,13 @@ function Grid({ playlists, select }) {
 				)
 			)}
 			</div>
+			<button onClick={() => loadPlaylists()} className="load-button accept-action">Load More</button>
 		</>
 	);
 }
 
 
-function Promote({ playlists }) {
+function Promote({ playlists, loadPlaylists }) {
 	const [selected, setSelected] = useState(null);
 	
 	let headerIdea = selected != null ? "You have choiced" : "Make world discover your Music!"; 
@@ -95,7 +96,8 @@ function Promote({ playlists }) {
 					<h1 className="login-xl">{headerIdea}</h1>
 				</div>
 				{selected === null ?
-				<Grid playlists={playlists} select={select} /> : <Accept unSelect={unSelect} selected={selected} />}
+				<Grid playlists={playlists} select={select} loadPlaylists={loadPlaylists} /> :
+				<Accept unSelect={unSelect} selected={selected} />}
 			</div>
 		</div>
 	)

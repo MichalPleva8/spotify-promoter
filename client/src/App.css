@@ -314,6 +314,11 @@ body, html {
   cursor: pointer;
 }
 
+.track img {
+  width: 100%;
+  height: 100%;
+}
+
 .current {
   margin-bottom: 77px;
   display: flex;
@@ -435,6 +440,10 @@ body, html {
   -moz-border-radius: 8px;
   -ms-border-radius: 8px;
   -o-border-radius: 8px;
+}
+
+.load-button {
+  margin: 40px auto;
 }
 
 .accept-wrapper {
