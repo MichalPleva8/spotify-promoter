@@ -54,25 +54,29 @@ router.get('/songs', (req, res) => {
 		"Authorization": `Bearer ${token}`
 	};
 
-	request.get(requestUri, { headers: requestHeaders }, (error, response, body) => {
-		if (error) { res.status(400).json({ error }); return; }
+	try {
+		request.get(requestUri, { headers: requestHeaders }, (error, response, body) => {
+			if (error) { res.status(400).json({ error }); return; }
+				
+			let raw = JSON.parse(body)
+			let payload = []; 
 			
-		let raw = JSON.parse(body)
-		let payload = []; 
-		
-		for (let i = 0; i < raw.items.length; i++) {
-			payload.push({
-				cover: raw.items[i].track.album.images[0].url,
-				name: raw.items[i].track.name,
-				artist: raw.items[i].track.artists[0].name,
-				album: raw.items[i].track.album.name,
-				duration_ms: raw.items[i].track.duration_ms, 
-				uri: raw.items[i].track.uri
-			});
-		}
+			for (let i = 0; i < raw.items.length; i++) {
+				payload.push({
+					cover: raw.items[i].track.album.images[0].url,
+					name: raw.items[i].track.name,
+					artist: raw.items[i].track.artists[0].name,
+					album: raw.items[i].track.album.name,
+					duration_ms: raw.items[i].track.duration_ms, 
+					uri: raw.items[i].track.uri
+				});
+			}
 
-		res.status(200).json(payload);
-	});
+			res.status(200).json(payload);
+		});
+	} catch (error) {
+		res.status(400).json({ error: 'invalid_token', message: error });
+	}
 });
 
 router.get('/playlists', (req, res) => {
@@ -89,31 +93,35 @@ router.get('/playlists', (req, res) => {
 		"Authorization": `Bearer ${token}`
 	};
 
-	request.get(requestUri, { headers: requestHeaders }, (error, response, body) => {
-		if (error) { res.status(400).json({ error: 'Bad request to Spotify Api', message: error }); return; }
+	try {
+		request.get(requestUri, { headers: requestHeaders }, (error, response, body) => {
+			if (error) { res.status(400).json({ error: 'Bad request to Spotify Api', message: error }); return; }
+				
+			let raw = JSON.parse(body)
 			
-		let raw = JSON.parse(body)
-		
-		try {
-			let payload = []; 
-			for (let i = 0; i < raw.items.length; i++) {
-				payload.push({
-					id: raw.items[i].id,
-					image: raw.items[i].images[0].url,
-					name: raw.items[i].name,
-					author: raw.items[i].owner.display_name,
-					tracks: {
-						href: raw.items[i].tracks.href,
-						total: raw.items[i].tracks.total
-					} 
-				});
-			}
+			try {
+				let payload = []; 
+				for (let i = 0; i < raw.items.length; i++) {
+					payload.push({
+						id: raw.items[i].id,
+						image: raw.items[i].images[0].url,
+						name: raw.items[i].name,
+						author: raw.items[i].owner.display_name,
+						tracks: {
+							href: raw.items[i].tracks.href,
+							total: raw.items[i].tracks.total
+						} 
+					});
+				}
 
-			res.status(200).json(payload);
-		} catch (error) {
-			res.status(400).json(error)
-		}
-	});
+				res.status(200).json(payload);
+			} catch (error) {
+				res.status(400).json(error)
+			}
+		});
+	} catch (error) {
+		res.status(400).json({ error: 'invalid_token', message: error });
+	}
 });
 
 router.post('/playlist/follow', (req, res) => {
