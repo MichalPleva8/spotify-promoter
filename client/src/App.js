@@ -25,13 +25,9 @@ function App() {
     }
 
     if (api.accessToken != "" && path === "/promote") {
-      try {
-        api.getMyPlaylists(playlistLimit, playlistOffset)
-          .then(result => {setPlaylists(result); console.dir(result);})
-          .catch(error => console.error(error));
-      } catch (error) {
-        alert('Invalid Token');
-      }
+      api.getMyPlaylists(playlistLimit, playlistOffset)
+        .then(result => {setPlaylists(result); console.dir(result);})
+        .catch(error => console.error(error));
     }
   }
 
