@@ -15,7 +15,7 @@ function Login() {
 		// 	action = "showcase";
 		// }
 
-		authUrl = window.location.origin + `/auth/login?action=${path}`;
+		authUrl = window.location.origin + `/auth/login?path=${path}`;
 	}
 
 	let header, text;
