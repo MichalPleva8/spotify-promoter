@@ -12,7 +12,7 @@ const checkAccessToken = require('./middlewares/validateToken');
 app.use(express.static(path.join(__dirname, 'build')));
 app.use(bodyParser.urlencoded({ extended: false}));
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors({ origin: "*" }));
 app.use(checkAccessToken)
 
 // Routing

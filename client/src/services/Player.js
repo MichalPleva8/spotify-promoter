@@ -2,6 +2,7 @@ class Player {
 	constructor(element) {
 		this.player = element;
 		this.isPlaying = false;
+		this.totalTracks = 0;
 	}
 
 	setSource = (source) => {
