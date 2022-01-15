@@ -70,12 +70,12 @@ router.get('/callback', (req, res) => {
 	}, (error, response, body) => {
 		if (!error && response.statusCode === 200) {
 
-			setTimeout(() => {
-				request.get('http://localhost:5000/auth/refresh');
-			}, body.expires_in);
+			// setTimeout(() => {
+			// 	request.get('http://localhost:5000/auth/refresh');
+			// }, body.expires_in);
 
 			console.log(redirectTo);
-			res.redirect(`${redirectTo}?token=${body.access_token}&refresh=${body.refresh_token}`);
+			res.redirect(`${redirectTo}?token=${body.access_token}&refresh=${body.refresh_token}&expires=${body.expires_in}`);
 		} else {
 			res.redirect(`${redirectTo}?error=invalid`);
 		}
@@ -88,25 +88,30 @@ router.get('/refresh', (req, res) => {
 	let requestUrl = 'https://accounts.spotify.com/api/token';
 	let requestData = {
 		grant_type: 'refresh_token',
-		refresh_token: req.query.refreshToken
+		refresh_token: req.headers.refresh
 	};
 	let requestHeaders = { "Authorization": 'Basic ' + buffer, "Content-Type": "application/x-www-form-urlencoded"};
 
-	request.post({
-		url: requestUrl,
-		form: requestData,
-		headers: requestHeaders,
-		json: true
+	try {
+		request.post({
+			url: requestUrl,
+			form: requestData,
+			headers: requestHeaders,
+			json: true
 		}, (error, response, body) => {
 			if (!error && response.statusCode === 200) {
 
 				console.log("Token has been refreshed");
-				res.json(body);
+				console.log(body);
+				res.status(200).json({ token: body.access_token, expires: body.expires_in });
 			} else {
 				console.error(error);
-				res.redirect('/?error=notrefreshed');
+				res.redirect(`${redirectTo}?error=notrefreshed`);
 			}
 		});
+	} catch (error) {
+		res.status(400).json({ error: "norefresh", message: "Refresh crashed while requesting data" })
+	}
 
 });
 

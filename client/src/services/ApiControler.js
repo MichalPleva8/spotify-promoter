@@ -13,26 +13,43 @@ class ApiControler {
 		}
 	}
 
-	setAccessToken = (token) => {
+	setAccessToken = (token, expires) => {
 		this.accessToken = token;
+
+		this.refresh(expires);
 	} 
 
 	setRefreshToken = (token) => {
 		this.refreshToken = token;
 	} 
 
+	refresh = (expires) => {
+		let expiresMs = expires * 1000;
+
+		setTimeout(async() => {
+			let options = { headers: { "refresh": this.refreshToken }, mode: 'no-cors' };
+			const response = await fetch(`${this.origin}/auth/refresh`, options);
+
+			if (response.ok) {
+				const json = await response.json();
+				await this.setAccessToken(json.accessToken, json.expires);
+			}
+
+		}, expiresMs)
+	}
+
 	logout = () => {
 		this.setAccessToken('');
 		this.setRefreshToken('');
-		localStorage.clear();
+		sessionStorage.clear();
 	}
 
 	getToken = () => {
-		let ls = localStorage;
+		let ls = sessionStorage;
 		let urlSearch = new URLSearchParams(window.location.search);
 
 		if (urlSearch.has('token')) {
-			this.setAccessToken(urlSearch.get('token'));
+			this.setAccessToken(urlSearch.get('token'), urlSearch.get('expires'));
 			this.setRefreshToken(urlSearch.get('refresh'));
 
 			ls.setItem('token', urlSearch.get('token'));
@@ -85,11 +102,16 @@ class ApiControler {
 		let requestLimit = limit || 10;
 		let requestOffset = offset || 0;
 
-		let options = { headers: { "key": this.accessToken } };
-		const response = await fetch(`${this.origin}/api/playlist/tracks?pid=${requestPlaylistId}&limit=${requestLimit}&offset=${requestOffset}`, options);
-		const json = await response.json();
+		try {
+			let options = { headers: { "key": this.accessToken } };
+			const response = await fetch(`${this.origin}/api/playlist/tracks?pid=${requestPlaylistId}&limit=${requestLimit}&offset=${requestOffset}`, options);
+			const json = await response.json();
 
-		return json;
+			return json;
+		} catch (error) {
+			this.refresh();
+			console.error("ApiControler", error);
+		}
 	} 
 
 	followPlaylist = async (playlistId) => {

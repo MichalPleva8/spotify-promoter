@@ -288,15 +288,15 @@ body, html {
 }
 
 .tracks-list {
-  margin-bottom: 64px;
-  display: flex;
+  display: inline-flex;
   flex-direction: row;
   white-space: nowrap;
   gap: 10px;
 }
 
 .tracks-list:first-child {
-  padding-left: 40%;
+  padding-left: calc(50% - 150px);
+  padding-right: calc(50% - 150px);
 }
 
 .track {
@@ -311,7 +311,6 @@ body, html {
   -moz-border-radius: 8px;
   -ms-border-radius: 8px;
   -o-border-radius: 8px;
-  cursor: pointer;
 }
 
 .track img {
@@ -320,6 +319,7 @@ body, html {
 }
 
 .current {
+  margin-top: 64px;
   margin-bottom: 77px;
   display: flex;
   flex-direction: column;

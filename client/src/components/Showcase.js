@@ -32,7 +32,7 @@ function Controls({ isPlaying, setIsPlaying, pagination, setPagination, handlePa
 
 	let nextTrack = () => {
 		slider.scrollBy({ left: slideBy, top: 0, behavior: 'smooth' });
-		if (pagination < 10) {
+		if (pagination < 9) {
 			setPagination(pagination + 1)
 		}
 	}
@@ -76,14 +76,8 @@ function Track({ data, index, setIsPlaying }) {
 
 	window.player = player // Global scope for Player
 
-	let playTrack = () => {
-		player.setSource(data.preview_url);
-		player.play();
-		setIsPlaying(true);
-	} 
-
 	return (
-		<div onClick={() => playTrack()} className="track">
+		<div className="track">
 			<img src={cover} alt="cover" />
 		</div>
 	);
@@ -102,6 +96,8 @@ function Showcase(props) {
 	const [isPlaying, setIsPlaying] = useState(false);
 	const [pagination, setPagination] = useState(0);
 	const [current, setCurrent] = useState({ name: "", artist: null });
+
+	let tracksTotal;
 
 	let handlePaginationChange = () => {
 		if (tracks != null && tracks.length > 0) {
@@ -122,11 +118,12 @@ function Showcase(props) {
 			pid = params.get('pid');
 		}
 
-		await api.getPlaylistTracks(pid, 10, 2)
+		await api.getPlaylistTracks(pid, 10, 0)
 			.then(result => {
 				setTracks(result);
 				player.setSource(result[0].preview_url);
 				player.totalTracks = result.length;
+				tracksTotal = result.length;
 			})
 			.catch(error => console.error(error));
 
