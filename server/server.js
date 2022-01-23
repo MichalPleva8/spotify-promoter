@@ -18,8 +18,11 @@ app.use(checkAccessToken)
 // Routing
 const apiRouter = require('./routes/api');
 const authRouter = require('./routes/auth');
+const processRouter = require('./routes/process');
+
 app.use('/api', apiRouter, checkAccessToken);
 app.use('/auth', authRouter);
+app.use('/process', processRouter);
 
 // Load React 
 app.get('*', (req, res) => {

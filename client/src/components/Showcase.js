@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { api } from '../App';
 import Player from '../services/Player.js';
 
@@ -23,10 +24,6 @@ function Controls({ isPlaying, setIsPlaying, pagination, setPagination, handlePa
 	}
 
 	let likeTrack = (target) => {
-		// api.followPlaylist()
-		// 	.then(result => console.log(result))
-		// 	.catch(error => console.error(error));
-
 		target.classList.toggle('liked');
 	}
 
@@ -72,7 +69,7 @@ function Controls({ isPlaying, setIsPlaying, pagination, setPagination, handlePa
 
 function Track({ data, index, setIsPlaying }) {
 	player = new Player(document.querySelector('#thePlayer'));
-	let cover = data.album.images[1].url;
+	let cover = data.image;
 
 	window.player = player // Global scope for Player
 
@@ -99,6 +96,8 @@ function Showcase(props) {
 
 	let tracksTotal;
 
+	const { pid } = useParams();
+
 	let handlePaginationChange = () => {
 		if (tracks != null && tracks.length > 0) {
 			let index = pagination;
@@ -112,27 +111,24 @@ function Showcase(props) {
 	}
 
 	useEffect(async () => {
-		let pid = "37i9dQZF1DX76t638V6CA8"; // Demo
-		let params = new URLSearchParams(window.location.search);
-		if (params.has('pid')) {
-			pid = params.get('pid');
-		}
 
-		await api.getPlaylistTracks(pid, 10, 0)
+		await api.getPromotedPlaylist(pid)
 			.then(result => {
-				setTracks(result);
-				player.setSource(result[0].preview_url);
-				player.totalTracks = result.length;
-				tracksTotal = result.length;
-			})
-			.catch(error => console.error(error));
+				let tracks = result[0].tracks;
+				setTracks(tracks);
 
+				player.setSource(tracks[0].preview);
+				player.totalTracks = tracks.length;
+				tracksTotal = tracks.length;
+
+				console.log(result);
+			}).catch(error => console.error(error));
 	}, [])
 
 	useEffect(async () => {
 		if (tracks) {
 			if (pagination < tracks.length) {
-				player.setSource(tracks[pagination].preview_url);
+				player.setSource(tracks[pagination].preview);
 			}
 			player.play();
 			setIsPlaying(true);

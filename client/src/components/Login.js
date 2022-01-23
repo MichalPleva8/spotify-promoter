@@ -1,5 +1,6 @@
 import React from 'react'
 import '../App.css';
+import dev from '../assets/author.jpg'
 
 function Login() {
 	let path = window.location.pathname;
@@ -34,7 +35,11 @@ function Login() {
 			</div>
 
 			<span className="login-dev">
-				Coded by Michal Pleva | Source code: <a target="_blank" href="https://github.com/MichalPleva8/spotify-promoter">Github project</a>
+				<img src={dev} className="login-profile" alt="Profile" />
+				<div className="login-dev-content">
+					<p>Coded by Michal Pleva</p>
+					<a href="https://www.github.com">Github</a>
+				</div>
 			</span>
 		</div>
 	)
