@@ -16,7 +16,7 @@ class ApiControler {
 	setAccessToken = (token, expires) => {
 		this.accessToken = token;
 
-		this.refresh(expires);
+		// this.refresh(expires);
 	} 
 
 	setRefreshToken = (token) => {
@@ -67,6 +67,32 @@ class ApiControler {
 
 	}
 
+	promotePlaylist = async (data) => {
+		let requestHeaders = {
+			"Content-type": "application/json",
+			"Accept": "application/json"
+		}
+
+		let options = { method: 'POST', headers: requestHeaders, body: JSON.stringify(data) };
+		const response = await fetch(`${this.origin}/process/save`, options);
+		const json = await response.json();
+
+		return json;
+	} 
+
+	getPromotedPlaylist = async (pid) => {
+		let requestHeaders = {
+			"Content-type": "application/json",
+			"Accept": "application/json"
+		}
+
+		let options = { method: 'GET', headers: requestHeaders };
+		const response = await fetch(`${this.origin}/process/${pid}`, options);
+		const json = await response.json();
+
+		return json;
+	} 
+
 	getMe = async () => {
 		let options = { headers: { "key": this.accessToken } };
 		const response = await fetch(`${this.origin}/api/me`, options);
@@ -97,14 +123,12 @@ class ApiControler {
 		return json;
 	} 
 
-	getPlaylistTracks = async (playlistId, limit, offset) => {
-		let requestPlaylistId = playlistId;
-		let requestLimit = limit || 10;
-		let requestOffset = offset || 0;
-
+	getPlaylistTracks = async (pid, limit=15, offset=0) => {
 		try {
 			let options = { headers: { "key": this.accessToken } };
-			const response = await fetch(`${this.origin}/api/playlist/tracks?pid=${requestPlaylistId}&limit=${requestLimit}&offset=${requestOffset}`, options);
+			// const response = await fetch(`https://api.spotify.com/v1/playlists/${pid}/tracks?limit=${limit}&offset=${offset}`, options)
+			// const json = await response.json();
+			const response = await fetch(`${this.origin}/api/playlist/tracks?pid=${pid}&limit=${limit}&offset=${offset}`, options);
 			const json = await response.json();
 
 			return json;

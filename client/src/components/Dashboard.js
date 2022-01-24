@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { api } from '../App';
-import nocover from '../assets/nocover.png';
+import { api } from 'App';
+import nocover from 'assets/nocover.png';
 
 function Song(props) {
 	let duration = new Date(props.data.duration_ms);

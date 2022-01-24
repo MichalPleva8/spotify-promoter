@@ -126,45 +126,15 @@ router.get('/playlists', (req, res) => {
 	}
 });
 
-router.post('/playlist/follow', (req, res) => {
-	const token = req.headers.key || req.query.token;
-
-	// Params for request
-	let playlistId = req.query.pid || "";
-	
-	const requestUri = `https://api.spotify.com/v1/playlists/${playlistId}/followers`;
-	const requestBody = { "public": false };
-	const requestHeaders = {
-		"Accept": "application/json",
-		"Content-Type": "application/json",
-		"Authorization": `Bearer ${token}`
-	};
-
-	request.put(requestUri, { headers: requestHeaders, body: requestBody }, (error, response, body) => {
-		if (error) { res.status(400).json({ error: 'Bad request to Spotify Api', message: error }); return; }
-			
-		let raw = JSON.parse(body)
-		console.log(raw);
-		
-		try {
-			let payload = []; 
-
-			res.status(200).json(payload);
-		} catch (error) {
-			res.status(400).json({ error: 'noresponse', message: error})
-		}
-	});
-})
-
 router.get('/playlist/tracks', (req, res) => {
 	const token = req.headers.key || req.query.token;
 
 	// Params for request
-	let playlistId = req.query.pid || "";
+	let pid = req.query.pid || "";
 	let limit = req.query.limit || 15;
 	let offset = req.query.offset || 0;
 	
-	const requestUri = `https://api.spotify.com/v1/playlists/${playlistId}/tracks?market=SK&limit=${limit}&offset=${offset}`;
+	const requestUri = `https://api.spotify.com/v1/playlists/${pid}/tracks?market=SK&limit=${limit}&offset=${offset}`;
 	const requestHeaders = {
 		"Accept": "application/json",
 		"Content-Type": "application/json",
