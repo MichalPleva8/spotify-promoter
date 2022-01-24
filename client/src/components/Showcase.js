@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { api } from '../App';
-import Player from '../services/Player.js';
+import { Bars } from 'react-loader-spinner';
+import { Nav } from 'components/index';
+import { api } from 'App';
+import Player from 'services/Player.js';
 
 let player;
 
@@ -89,44 +91,44 @@ function TracksList({ tracks, setIsPlaying }) {
 }
 
 function Showcase(props) {
-	const [tracks, setTracks] = useState(null);
+	const [tracks, setTracks] = useState([]);
 	const [isPlaying, setIsPlaying] = useState(false);
 	const [pagination, setPagination] = useState(0);
 	const [current, setCurrent] = useState({ name: "", artist: null });
-
-	let tracksTotal;
+	const [created, setCreated] = useState({ username: "", image: "", link: "" });
 
 	const { pid } = useParams();
 
 	let handlePaginationChange = () => {
-		if (tracks != null && tracks.length > 0) {
+		if (tracks.length > 0) {
 			let index = pagination;
 			let artists = tracks[index].artists.map(item => {
 				return item.name;
 			});
 
-
 			setCurrent({ name: tracks[index].name, artist: artists.join(" & ") })
 		}
 	}
 
+	// Get tracks
 	useEffect(async () => {
-
 		await api.getPromotedPlaylist(pid)
 			.then(result => {
-				let tracks = result[0].tracks;
-				setTracks(tracks);
-
-				player.setSource(tracks[0].preview);
-				player.totalTracks = tracks.length;
-				tracksTotal = tracks.length;
-
-				console.log(result);
+				setCreated({ username: result[0].created.username, image: result[0].created.image });
+				setTracks(result[0].tracks);
 			}).catch(error => console.error(error));
 	}, [])
 
+	useEffect(() => {
+		if (tracks.length > 0) {
+			player.setSource(tracks[0].preview);
+			player.totalTracks = tracks.length;
+		}
+	}, [tracks])
+
+	// Change song
 	useEffect(async () => {
-		if (tracks) {
+		if (tracks.length > 0) {
 			if (pagination < tracks.length) {
 				player.setSource(tracks[pagination].preview);
 			}
@@ -139,17 +141,21 @@ function Showcase(props) {
 
 
 	return (
+		<>
+		<Nav user={{ username: created.username, image: created.image }} />
 		<div className="showcase">
 			<audio id="thePlayer" src="" hidden></audio>
 			<div className="showcase-wrapper">
 				<div id="slider" className="tracks-overflow">
 					<div className="tracks-list">
-						{tracks && <TracksList tracks={tracks} setIsPlaying={setIsPlaying} />}
-					</div>
+						{tracks.length > 0 ?
+						<TracksList tracks={tracks} setIsPlaying={setIsPlaying} /> :
+						<Bars color="#eee" wrapperStyle={{marginLeft: 100}} width="100" height="300" />}
+					 </div>
 				</div>
 				<div className="current">
 					<h3 className="current-name">{current.name != "" ? current.name : "Start your Jurney"}</h3>
-					<h3 className="current-artist">{current.artist != null ? current.artist : "with click of a play button"}</h3>
+					<h3 className="current-artist">{current.artist != null ? current.artist : "with click of a button"}</h3>
 				</div>
 				<Controls
 					isPlaying={isPlaying}
@@ -160,6 +166,7 @@ function Showcase(props) {
 				/>
 			</div>
 		</div>
+		</>
 	)
 }
 

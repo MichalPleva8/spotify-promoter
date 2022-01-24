@@ -1,6 +1,5 @@
 import React from 'react'
-import '../App.css';
-import dev from '../assets/author.jpg'
+import dev from 'assets/author.jpg'
 
 function Login() {
 	let path = window.location.pathname;

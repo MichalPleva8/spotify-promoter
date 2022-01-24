@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
-import nouser from '../assets/nouser.png';
+import nouser from 'assets/nouser.png';
 
 function Nav({ user }) {
 	let navigate = useNavigate();

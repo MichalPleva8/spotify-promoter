@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import dev from '../assets/author.jpg';
+import dev from 'assets/author.jpg';
 
 function Home() {
 	let origin = window.location.origin;

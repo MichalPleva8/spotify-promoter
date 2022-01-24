@@ -6,7 +6,6 @@ import Login from './Login';
 import Promote from './Promote/Promote';
 import Accept from './Promote/Accept';
 
-import RefreshButton from './RefreshButton';
 import Home from './Home';
 import Error from './Error';
 
@@ -17,7 +16,6 @@ export {
 	Showcase,
 	Promote,
 	Accept,
-	RefreshButton,
 	Error,
 	Home
 };
