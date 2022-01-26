@@ -1,6 +1,6 @@
 # Spotify Promoter 
 
-<img src="/docs/preview.png" alt="App preview" />
+<img src="/docs/preview.jpg" alt="App preview" />
 
 You can try this app on [spotify-promoter.herokuapp.com](https://spotify-promoter.herokuapp.com/)
 
