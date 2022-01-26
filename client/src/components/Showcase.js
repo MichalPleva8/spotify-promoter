@@ -82,23 +82,27 @@ function Controls({ isPlaying, setIsPlaying, pagination, setPagination, handlePa
 	)
 }
 
-function Track({ data }) {
+function Track({ data, setPagination, index, pagination }) {
 	player = new Player(document.querySelector('#thePlayer'));
 	let cover = data.image;
 
 	window.player = player // Global scope for Player
 
 	return (
-		<div className="track">
+		<div className="track" onClick={() => setPagination(index)}>
 			<img src={cover} alt="cover" />
+			{/* {pagination === index &&
+			<div className="bar">
+				<div className="fill" style={{width: `${time}%`}}></div>
+			</div>} */}
 		</div>
 	);
 }
 
-function TracksList({ tracks }) {
+function TracksList({ tracks, setPagination, pagination }) {
 	return (
 		tracks.map((track, index) => (
-			<Track key={index} data={track} />
+			<Track key={index} data={track} index={index} setPagination={setPagination} pagination={pagination} />
 		))
 	);
 }
@@ -167,7 +171,7 @@ function Showcase(props) {
 				<div id="slider" className="tracks-overflow">
 					<div className="tracks-list">
 						{tracks.length > 0 ?
-						<TracksList tracks={tracks} /> :
+						<TracksList tracks={tracks} setPagination={setPagination} pagination={pagination} /> :
 						<Bars color="#eee" wrapperStyle={{marginLeft: 100}} width="100" height="300" ariaLabel="Loading" />}
 					 </div>
 				</div>

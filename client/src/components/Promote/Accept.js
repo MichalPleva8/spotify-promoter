@@ -10,7 +10,7 @@ function Accept({ me, selected, unSelect }) {
 		if (api.accessToken != "" && tracks.length === 0) {
 			let { id, tracks } = selected;
 
-			api.getPlaylistTracks(id, tracks.total, 0)
+			api.getPlaylistTracks(id, 35, 0)
 				.then(result => {setTracks([]); setTracks(result);})
 				.catch(error => console.error(error));
 		}
