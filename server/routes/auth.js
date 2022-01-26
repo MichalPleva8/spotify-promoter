@@ -24,62 +24,69 @@ let generateRandomString = (length) => {
 let redirectTo = '';
 let redirectPath = '';
 router.get('/login', (req, res) => {
-	if (req.query.redirect != '') {
-		redirectTo = req.query.redirect + req.query.path;
+	try {
+		if (req.query.redirect != '') {
+			redirectTo = req.query.redirect + req.query.path;
+		}
+
+		if (process.env.NODE_ENV === 'production') {
+			credentials.redirect_uri = 'https://spotify-promoter.herokuapp.com/auth/callback/';
+			redirectTo = req.query.path;
+		} 
+
+		let authParams = new URLSearchParams({
+			response_type: 'code',
+			client_id: credentials.client_id,
+			scope: 'user-read-playback-state user-modify-playback-state user-read-currently-playing user-read-private user-read-email user-follow-modify user-follow-read user-library-modify user-library-read streaming app-remote-control user-read-playback-position user-top-read user-read-recently-played playlist-modify-private playlist-read-collaborative playlist-read-private playlist-modify-public',
+			redirect_uri: credentials.redirect_uri,
+			state: generateRandomString(16)
+		});
+
+		const authUri = 'https://accounts.spotify.com/authorize/?' + authParams.toString();
+
+		res.redirect(authUri);
+	} catch (error) {
+		console.log("Auth Error: ", error);
+		res.redirect('/?error=devmodeonly');
 	}
-
-	if (process.env.NODE_ENV === 'production') {
-		credentials.redirect_uri = 'https://spotify-promoter.herokuapp.com/auth/callback/';
-		redirectTo = req.query.path;
-	} 
-
-	let authParams = new URLSearchParams({
-		response_type: 'code',
-		client_id: credentials.client_id,
-		scope: 'user-read-playback-state user-modify-playback-state user-read-currently-playing user-read-private user-read-email user-follow-modify user-follow-read user-library-modify user-library-read streaming app-remote-control user-read-playback-position user-top-read user-read-recently-played playlist-modify-private playlist-read-collaborative playlist-read-private playlist-modify-public',
-		redirect_uri: credentials.redirect_uri,
-		state: generateRandomString(16)
-	});
-
-	const authUri = 'https://accounts.spotify.com/authorize/?' + authParams.toString();
-
-	res.redirect(authUri);
 });
 
 router.get('/callback', (req, res) => {
-	let code = req.query.code;
-	let buffer = (Buffer.from(credentials.client_id + ':' + credentials.client_secret)).toString('base64');
+	try {
+		let code = req.query.code;
+		let buffer = (Buffer.from(credentials.client_id + ':' + credentials.client_secret)).toString('base64');
 
-	let requestUrl = 'https://accounts.spotify.com/api/token';
-	let requestData = {
-		code,
-		redirect_uri: credentials.redirect_uri,
-		grant_type: 'authorization_code',
-		client_id: credentials.client_id,
-		client_secret: credentials.client_secret
-	};
-	let requestHeaders = { "Authorization": 'Basic ' + buffer, "Content-Type": "application/x-www-form-urlencoded"};
+		let requestUrl = 'https://accounts.spotify.com/api/token';
+		let requestData = {
+			code,
+			redirect_uri: credentials.redirect_uri,
+			grant_type: 'authorization_code',
+			client_id: credentials.client_id,
+			client_secret: credentials.client_secret
+		};
+		let requestHeaders = { "Authorization": 'Basic ' + buffer, "Content-Type": "application/x-www-form-urlencoded"};
 
-	const users = [];
+		const users = [];
 
-	request.post({
-		url: requestUrl,
-		form: requestData,
-		// headers: requestHeaders,
-		json: true
-	}, (error, response, body) => {
-		if (!error && response.statusCode === 200) {
+		request.post({
+			url: requestUrl,
+			form: requestData,
+			// headers: requestHeaders,
+			json: true
+		}, (error, response, body) => {
+			if (!error && response.statusCode === 200) {
 
-			// setTimeout(() => {
-			// 	request.get('http://localhost:5000/auth/refresh');
-			// }, body.expires_in);
-
-			console.log(redirectTo);
-			res.redirect(`${redirectTo}?token=${body.access_token}&refresh=${body.refresh_token}&expires=${body.expires_in}`);
-		} else {
-			res.redirect(`${redirectTo}?error=invalid`);
-		}
-	});
+				console.log(redirectTo);
+				res.redirect(`${redirectTo}?token=${body.access_token}&refresh=${body.refresh_token}&expires=${body.expires_in}`);
+			} else {
+				res.redirect(`${redirectTo}?error=invalid`);
+			}
+		});
+		
+	} catch (error) {
+		console.log("Auth Error: ", error);
+		res.redirect('/?error=devmodeonly')
+	}
 });
 
 router.get('/refresh', (req, res) => {

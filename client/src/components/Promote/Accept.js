@@ -76,6 +76,7 @@ function Accept({ me, selected, unSelect }) {
 						Promote	
 					</button>
 				</div>
+
 			</div>
 		</div>
 	)

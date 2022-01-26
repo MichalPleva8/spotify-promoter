@@ -18,7 +18,6 @@ function App() {
           <Route path='*' element={<Error />} />
         </Routes>
       </Router>
-      <div className="bg"></div>
     </div>
   );
 }

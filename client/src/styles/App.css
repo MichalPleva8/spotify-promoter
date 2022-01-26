@@ -1,18 +1,10 @@
 body, html {
-	font-family: 'Poppins';
-	color: #f1f1f1;
-	/* background: #121212; */
-}
-
-.bg {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -10;
-
+  /* height: 100%; */
+	font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+	color: #eee;
   background-image: url("assets/bg.jpg");
   background-size: cover;
+  background-color: #121212;
 }
 
 .hero-solid {
@@ -39,7 +31,7 @@ body, html {
 .button {
   padding: 125px;
   border: 1px solid rgba(54, 54, 54, 0.6);
-  
+
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -48,16 +40,46 @@ body, html {
 
   border-radius: 16px;
   overflow: hidden;
-  transition: .3 ease-in-out;
+  transition: .3s ease-in-out;
+}
+
+.button:hover {
+  border: 1px solid rgba(90, 90, 90, 0.6);
 }
 
 .button-primary {
   background: linear-gradient(90.29deg, #AA076B 2.13%, #61045F 86.88%);
 }
 
+.button-primary:hover {
+  filter: saturate(1.1);
+}
+
 .button > .hero-solid {
   width: 30px;
   height: 30px;
+}
+
+.super-button {
+  width: 300px;
+  height: 300px;
+}
+
+.backButton {
+  /* position: fixed;
+  top: 6%;
+  left: 6%; */
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  padding: 22.5px;
+  color: #fff;
+  background: #444;
+
+  border-radius: 50%;
 }
 
 /* Nav */
@@ -66,8 +88,13 @@ body, html {
 }
 
 .nav-wrapper {
-	padding: 35px 45px;
-} 
+	padding: 35px;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
 
 .profile {
 	display: flex;
@@ -89,6 +116,7 @@ body, html {
 	-ms-border-radius: 50%;
 	-o-border-radius: 50%;
 	cursor: pointer;
+  object-fit: cover;
 }
 
 .profile-content {
@@ -122,10 +150,76 @@ body, html {
 /* Home */
 .home-group {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 30px;
+}
+
+.trending-wrapper {
+  width: 300px;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: start;
+  gap: 24px;
+}
+
+.trending-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.trending-item {
+  width: 100%;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
+
+  border: 1px solid rgba(54, 54, 54, 0.6);
+
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.trending-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 1px;
+}
+
+.trending-content span {
+  color: #fff;
+  font-family: Poppins;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 25px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+
+.trending-content p {
+  color: #ddd;
+  font-family: Poppins;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 25px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+
+.trending-item-image {
+  width: 70px;
+  height: 70px;
 }
 
 /* Login */
@@ -136,17 +230,23 @@ body, html {
   gap: 50px;
 }
 
+.login-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
 .login-xl {
-  font-family: Poppins;
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 48px;
   font-style: normal;
   font-weight: 800;
-  line-height: 48px;
+  line-height: 55px;
   text-align: center;
 }
 
 .login-lg {
-  font-family: Poppins;
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 36px;
   font-style: normal;
   font-weight: 800;
@@ -154,10 +254,20 @@ body, html {
   text-align: center;
 }
 
+.login-md {
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 31px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+
 .login-text {
   max-width: 600px;
   color: #ddd;
-  font-family: Nunito Sans;
+  font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
@@ -189,9 +299,6 @@ body, html {
 }
 
 .login-dev {
-  position: absolute;
-  bottom: 40px;
-
   display: flex;
   flex-direction: row;
   gap: 15px;
@@ -208,14 +315,15 @@ body, html {
 }
 
 .login-dev-content {
+  color: #ddd;
   display: flex;
   flex-direction: column;
   gap: 5px;
 }
 
 .login-profile {
-  width: 64px;
-  height: 64px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
 }
 
@@ -244,10 +352,14 @@ body, html {
 
 .fullpage-center {
   width: 100%;
-  height: 99vh;
+  min-height: 95vh;
+  margin: 40px 0;
+
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 15vh;
 }
 
 .row {
@@ -333,9 +445,9 @@ body, html {
   width: 100%;
 }
 
-/* .showcase-wrapper {
-  margin-top: 70px;
-} */
+.showcase-wrapper {
+  margin-top: 0%;
+}
 
 .tracks-overflow {
   overflow-x: hidden;
@@ -373,8 +485,8 @@ body, html {
 }
 
 .current {
-  margin-top: 64px;
-  margin-bottom: 77px;
+  margin: 64px 20px 45px;
+
   display: flex;
   flex-direction: column;
   gap: 18px;
@@ -385,14 +497,14 @@ body, html {
   font-family: Poppins;
   font-size: 36px;
   font-weight: 800;
-  line-height: 36px;
+  line-height: 43px;
   text-align: center;
 }
 
 .current-artist {
   color: #fff;
   font-family: Nunito Sans;
-  font-size: 17px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 400;
   line-height: 23px;
@@ -402,6 +514,32 @@ body, html {
 
 .controls {
   width: 100%;
+  margin-bottom: 40px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+}
+
+.volume {
+  width: 100%;
+  max-width: 500px;
+  padding: 0 30px;  
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+.volume input[type="range"] {
+  width: 100%;
+}
+
+.controls-group {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -427,8 +565,8 @@ body, html {
 }
 
 .liked {
-  animation: fill .3s ease-in-out forwards;
-  -webkit-animation: fill .3s ease-in-out forwards;
+  animation: fill .15s ease-in-out forwards;
+  -webkit-animation: fill .15s ease-in-out forwards;
 }
 
 @keyframes fill {
@@ -437,7 +575,7 @@ body, html {
   }
 
   100% {
-    color: #f13738;
+    color: #d30082;
   }
 }
 
@@ -571,13 +709,15 @@ body, html {
   border: 1px solid rgba(54, 54, 54, 0.6);
   outline: none;
 
-  font-weight: 600;
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
 
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 5px;
-  
+
   border-radius: 50px;
   opacity: 1;
   cursor: pointer;
@@ -593,6 +733,23 @@ body, html {
   background: rgba(54, 54, 54, 0.1);
 }
 
+.button-sm {
+  height: 32px;
+  padding: 5px 23px;
+
+  color: #FFFFFF;
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 21px;
+  text-align: center;
+
+  border-radius: 99px;
+  transition: .25s ease-in-out;
+  cursor: pointer;
+}
+
 .accept-primary {
   border: 0;
   background: linear-gradient(90.29deg, #AA076B 2.13%, #61045F 86.88%);
@@ -600,11 +757,18 @@ body, html {
 
 .accept-primary:hover {
   background: linear-gradient(90.29deg, #AA076B 2.13%, #61045F 86.88%);
+  filter: saturate(1.2);
 }
 
 .active {
   background: rgba(54, 54, 54, 0.6);
 }
+
+/* Copy button */
+.copy-button {
+  display: none;
+}
+
 
 /* Error */
 .error-wrapper {
@@ -621,9 +785,36 @@ body, html {
   color: #AA076B;
 }
 
+/* md */
+@media (min-width: 768px) {
+  .home-group {
+    flex-direction: row;
+  }
+
+  .copy-button {
+    display: block;
+  }
+}
+
 /* lg */
 @media (min-width: 1024px) {
+  .nav-wrapper {
+    padding: 35px 45px;
+  }
+
   .showcase-wrapper {
-    margin-top: 70px;
+    margin-top: 0%;
+  }
+
+  .fullpage-center {
+    min-height: 99vh;
+    margin: 0;
+  }
+}
+
+/* xl height */
+@media (min-height: 900px) {
+  .showcase-wrapper {
+    margin-top: 3%;
   }
 }

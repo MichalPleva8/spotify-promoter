@@ -1,16 +1,13 @@
 import React from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function Error() {
-	const { pid } = useParams()
-
-	let headerText = pid === "" ? "No Playlist id" : "Wrong Playlist id"
-
 	return (
 		<div className="error">
 			<div className="error-wrapper">
-				<h2 className="login-xl">{headerText}</h2>
-				<Link className="error-link" to="/">Go back</Link>
+				<h2 className="login-xl">Page not found</h2>
+				<p>It looks like we can't find the site you are looking for</p>
+				<Link className="accept-action accept-primary" to="/">Home</Link>
 			</div>
 		</div>
 	)
