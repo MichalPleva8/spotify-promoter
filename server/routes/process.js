@@ -24,24 +24,23 @@ router.get('/all', async (req, res) => {
 	}
 });
 
-// Get one random playlist
-// Can't be used because of free teer in Mongo Atlas
-// router.get('/random', async (req, res) => {
-// 	try {
-// 		client.connect(async err => {
-// 			if (err) throw err;
-// 			const collection = await client.db("playlists").collection("items");
+// Get all tags 
+router.get('/tags', async (req, res) => {
+	try {
+		client.connect(async err => {
+			if (err) throw err;
+			const collection = await client.db("playlists").collection("tags");
 
-// 			const data = await collection.aggregate([{ $samples: { size: 1 }}]).toArray();
+			const data = await collection.find({}).toArray();
 
-// 			client.close();
-// 			await res.json(data);
-// 		});
-// 	} catch (error) {
-// 		console.log(error);
-// 		res.json({ error: "nodbconnection", errorMessage: "Database is not connected with server!" });
-// 	}
-// });
+			client.close();
+			await res.json(data);
+		});
+	} catch (error) {
+		console.log(error);
+		res.json({ error: "nodbconnection", errorMessage: "Database is not connected with server!" });
+	}
+});
 
 // Save Playlist
 router.post('/save', (req, res) => {
@@ -51,9 +50,15 @@ router.post('/save', (req, res) => {
 		client.connect(async err => {
 			if (err) throw err;
 			const collection = client.db("playlists").collection("items");
+			const tags = client.db("playlists").collection("tags");
 
 			const effected = await collection.insertOne(payload);
-			console.log("Effected fields:", effected);
+			await tags.insertOne({
+				href: `/showcase/${payload.id}`,
+				name: payload.name,
+				image: payload.image,
+				username: payload.created.username
+			});
 
 			client.close();
 			res.json({ error: "none", result: effected });

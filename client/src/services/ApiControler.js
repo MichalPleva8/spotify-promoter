@@ -93,6 +93,19 @@ class ApiControler {
 		return json;
 	} 
 
+	getAllTags = async () => {
+		let requestHeaders = {
+			"Content-type": "application/json",
+			"Accept": "application/json"
+		}
+
+		let options = { method: 'GET', headers: requestHeaders };
+		const response = await fetch(`${this.origin}/process/tags`, options);
+		const json = await response.json();
+
+		return json;
+	} 
+
 	getPromotedPlaylist = async (pid) => {
 		let requestHeaders = {
 			"Content-type": "application/json",

@@ -1,18 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { Bars } from 'react-loader-spinner';
 import { api } from 'App';
 import dev from 'assets/author.jpg';
 
 function Home() {
 	const [random, setRandom] = useState("");
+	const [recents, setRecents] = useState([]);
 
 	useEffect(async () => {
-		await api.getAllPlaylist()
+
+		await api.getAllTags()
 			.then(result => {
+				console.log(result);
 				let index = Math.floor(Math.random() * result.length);
-				setRandom("/showcase/" + result[index].id)
+				let only = result.slice((result.length - 3), result.length);
+
+				setRecents(only);
+				setRandom(result[index].href)
 			 })
-			.catch(error => console.error(error));
+			.catch(error => {
+				console.error(error);
+				setRandom("/showcase/0ZjgbF5FSJW3K9eQ7wpYvb");
+			});
 	}, []);
 
 	return (
@@ -23,29 +33,24 @@ function Home() {
 				<div className="home-group">
 					<div className="trending">
 						<div className="trending-wrapper">
-							<h1 className="login-md">Trending &#128293;</h1>
+							<h1 className="login-md">Recents &#128293;</h1>
 							<div className="trending-list">
-								<Link to="/showcase/37i9dQZF1DX76t638V6CA8" className="trending-item">
-									<img src="https://i.scdn.co/image/ab67706f000000030b5dffb6f645059b157fc77b" className="trending-item-image" alt="Playlist Cover" />
-									<div className="trending-content">
-										<span>Rap Workout</span>
-										<p>Spotify</p>
-									</div>
-								</Link>
-								<Link to="/showcase/0ZjgbF5FSJW3K9eQ7wpYvb" className="trending-item">
-									<img src="https://i.scdn.co/image/ab67706c0000bebb595e38a5607bbc3134ab8e9d" className="trending-item-image" alt="Playlist Cover" />
-									<div className="trending-content">
-										<span>Kunerad 🤪</span>
-										<p>Michal Pleva</p>
-									</div>
-								</Link>
-								<Link to="/showcase/37i9dQZF1DZ06evO1czgZG" className="trending-item">
-									<img src="https://thisis-images.scdn.co/37i9dQZF1DZ06evO1czgZG-large.jpg" className="trending-item-image" alt="Playlist Cover" />
-									<div className="trending-content">
-										<span>This Is Iné Kafe</span>
-										<p>Spotify</p>
-									</div>
-								</Link>
+								{recents.length > 0 ? 
+									recents.map((item, index) => {
+										// let href = "/showcase/" + item.id;
+
+										return (
+											<Link key={index} to={item.href} className="trending-item">
+												<img src={item.image} className="trending-item-image" alt="Playlist Cover" />
+												<div className="trending-content">
+													<span>{item.name}</span>
+													<p>{item.username}</p>
+												</div>
+											</Link>
+										)
+									}) :
+									<Bars color="#eee" wrapperStyle={{marginLeft: 100}} width="100" height="248" ariaLabel="Loading" />
+								}
 							</div>
 						</div>
 					</div>

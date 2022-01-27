@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Bars } from 'react-loader-spinner';
 import { api } from 'App';
 
 function Accept({ me, selected, unSelect }) {
 	const [tracks, setTracks] = useState([]);
+	const [uploading, setUploading] = useState(false);
 	let navigate = useNavigate();
 
 	useEffect(() => {
@@ -49,12 +51,13 @@ function Accept({ me, selected, unSelect }) {
 				}
 			})
 			.catch(error => console.error(error));
-
+			
+		setUploading(true);
 	}
-
 
 	return (
 		<div className="accept">
+			{ !uploading ?
 			<div className="accept-wrapper">
 				<img src={selected.image} className="accept-image" alt="cover" />
 				<div className="group">
@@ -76,8 +79,9 @@ function Accept({ me, selected, unSelect }) {
 						Promote	
 					</button>
 				</div>
-
-			</div>
+			</div> :
+			<Bars color="#eee" wrapperStyle={{marginLeft: "calc(50% - 100px)", marginTop: "100px"}} width="200" height="200" ariaLabel="Loading" />
+			}
 		</div>
 	)
 }

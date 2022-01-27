@@ -225,6 +225,8 @@ body {
 }
 
 .trending-content {
+  width: 65%;
+
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -240,6 +242,10 @@ body {
   line-height: 25px;
   letter-spacing: 0em;
   text-align: left;
+
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  white-space: nowrap;
 }
 
 .trending-content p {
