@@ -12,6 +12,7 @@
     "react-loader-spinner": "^5.1.0",
     "react-router-dom": "^6.2.1",
     "react-scripts": "5.0.0",
+    "react-tooltip": "^4.2.21",
     "request": "^2.88.2",
     "web-vitals": "^2.1.2"
   },

@@ -38,7 +38,8 @@ function Accept({ me, selected, unSelect }) {
 				username: me.username,
 				email: me.email,
 				image: me.image,
-				country: me.country
+				country: me.country,
+				profile_url: me.profile_url
 			},
 			tracks: trackItems,
 			total: trackItems.length

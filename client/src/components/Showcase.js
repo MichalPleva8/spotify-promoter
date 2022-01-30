@@ -135,7 +135,7 @@ function Showcase(props) {
 	useEffect(async () => {
 		await api.getPromotedPlaylist(pid)
 			.then(result => {
-				setCreated({ username: result[0].created.username, image: result[0].created.image });
+				setCreated({ username: result[0].created.username, image: result[0].created.image, profileUrl: result[0].created.profile_url });
 				setTracks(result[0].tracks);
 				setTotalTracks(result[0].total);
 			}).catch(error => console.error(error));
@@ -164,7 +164,7 @@ function Showcase(props) {
 
 	return (
 		<>
-		<Nav user={{ username: created.username, image: created.image }} />
+		<Nav user={{ username: created.username, image: created.image, profileUrl: created.profileUrl }} />
 		<div className="showcase">
 			<audio id="thePlayer" src="" hidden></audio>
 			<div className="showcase-wrapper">

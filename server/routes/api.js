@@ -27,6 +27,7 @@ router.get('/me', (req, res) => {
 					image: raw.images[0].url,
 					username: raw.display_name,
 					email: raw.email,
+					profile_url: raw.external_urls.spotify,
 					country: raw.country,
 				};
 			}
