@@ -30,7 +30,7 @@ npm install
 - You also need to create ``` .env ``` file in your **/server** directory and it needs to contain:
 ```
 CLIENT_ID=
-CLIENT_SECREAT=
+CLIENT_SECRET=
 MONGO_URL=
 ```
 - You can get your spotify credentails at [Developer Dashboard](https://developer.spotify.com/dashboard/login)
