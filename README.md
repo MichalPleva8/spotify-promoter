@@ -34,18 +34,22 @@ CLIENT_SECREAT=
 MONGO_URL=
 ```
 - You can get your spotify credentails at [Developer Dashboard](https://developer.spotify.com/dashboard/login)
-- And MONGO_URL from your local server or other source
+- And MONGO_URL from your local server or other source like [Mongo Atlas](https://www.mongodb.com/cloud/atlas/lp/try2?utm_source=google&utm_campaign=gs_footprint_row_search_core_brand_atlas_desktop&utm_term=mongodb%20atlas%20online&utm_medium=cpc_paid_search&utm_ad=e&utm_ad_campaign_id=12212624584&adgroup=115749713503&gclid=Cj0KCQiAi9mPBhCJARIsAHchl1zcFE_ptplvfP4PaSULExsIWtIYgllK55dGYfyQ4MmsPx_rpUaG-A8aAkuIEALw_wcB)
 
 - After that you need to run express server and react app at the same time 
 - In one terminal go to **/client** and run ``` npm start ```
 - In one terminal go to **/** and run ``` npm start ```
 
 # Future ideas
+Shorttime:
+* Page that shows you all promoted playlists
+* Automatic continue after track stoped playing
+* Home/Back button in Promote pages
+* Like system
 
+Longtime:
 * Storyline -> Feature that will show some stories, thoughts or pictures about the playlist creation
 * Trendings -> Make a leaderboard for playlist
-* Make a page that shows you all promoted playlists
-* Show playback timeline
 
 # Technologies 💻
 - MongoDB
