@@ -58,21 +58,6 @@ body {
   filter: saturate(1.1);
 }
 
-/* .button-secondary {
-  border: 1px solid rgba(54, 54, 54, 0.6);
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 6px;
-
-  border-radius: 16px;
-  overflow: hidden;
-  transition: .3s ease-in-out;
-
-} */
-
 .button-secondary > .hero-solid {
   width: 30px;
   height: 30px;
@@ -103,6 +88,27 @@ body {
   background: #444;
 
   border-radius: 50%;
+}
+
+.home-absolute {
+  position: absolute;
+  top: 35px;
+  left: 45px;
+}
+
+.home-button {
+  width: 50px;
+  height: 50px;
+
+  border: 1px solid rgba(54, 54, 54, 0.6);
+  border-radius: 50%;
+
+  transition: .2s ease-in-out;
+  cursor: pointer;
+}
+
+.home-button {
+  border: 1px solid rgba(90, 90, 90, 0.6);
 }
 
 /* Nav */
@@ -194,10 +200,10 @@ body {
   flex-direction: column-reverse;
   align-items: center;
   justify-content: center;
-  gap: 30px;
 }
 
 .home-group-primary {
+  margin-bottom: 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -849,6 +855,11 @@ body {
 @media (min-width: 768px) {
   .home-group {
     flex-direction: row;
+  }
+
+  .home-group-primary {
+    margin-left: 30px;
+    margin-bottom: 0;
   }
 
   .copy-button {

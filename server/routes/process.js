@@ -3,8 +3,13 @@ const router = express.Router();
 const { MongoClient } = require('mongodb');
 
 // Mongo Db Connection
-const uri = process.env.MONGO_URL;
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+let client;
+try {
+	const uri = process.env.MONGO_URL;
+	client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+} catch (error) {
+	console.log("Mongo Connection error:", error);
+}
 
 // Get all playlist
 router.get('/all', async (req, res) => {

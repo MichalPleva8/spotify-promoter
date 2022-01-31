@@ -140,20 +140,21 @@ function Showcase(props) {
 	let handlePaginationChange = () => {
 		if (tracks.length > 0) {
 			let name = tracks[pagination].name;
-			let artist = tracks[pagination].artists.map(item => {
+			let artists = tracks[pagination].artists.map(item => {
 				return item.name;
 			});
-			artist = artist.join(" & ");
+
+			artists = artists.join(" & ");
 
 			if (tracks[pagination].preview === null) {
 				name = "Not supported"
-				artist = "Spotify does not give access to this song"
+				artists = "Spotify does not give access to this song"
 			}
 
 			let sliderItems = document.querySelectorAll('.track');
 			sliderItems[pagination].scrollIntoView({behavior: "smooth", block: "start", inline: "center"})
 
-			setCurrent({ name, artist })
+			setCurrent({ name, artist: artists })
 		}
 	}
 
@@ -212,8 +213,8 @@ function Showcase(props) {
 					 </div>
 				</div>
 				<div className="current">
-					<h3 className="current-name">{current.name != "" ? current.name : "Start your Jurney"}</h3>
-					<h3 className="current-artist">{current.artist != null ? current.artist : "with click of a button"}</h3>
+					<h3 className="current-name">{current.name !== "" ? current.name : "Start your Jurney"}</h3>
+					<h3 className="current-artist">{current.artist !== null ? current.artist : "with click of a button"}</h3>
 				</div>
 				<Controls
 					isPlaying={isPlaying}

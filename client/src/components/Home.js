@@ -4,6 +4,22 @@ import { Bars } from 'react-loader-spinner';
 import { api } from 'App';
 import dev from 'assets/author.jpg';
 
+function TrendingList({ recents }) {
+	return (
+		recents.map((item, index) => {
+			return (
+				<Link key={index} to={item.href} className="trending-item">
+					<img src={item.image} className="trending-item-image" alt="Playlist Cover" />
+					<div className="trending-content">
+						<span>{item.name}</span>
+						<p>{item.username}</p>
+					</div>
+				</Link>
+			)
+		})
+	)
+}
+
 function Home() {
 	const [random, setRandom] = useState("");
 	const [recents, setRecents] = useState([]);
@@ -36,19 +52,7 @@ function Home() {
 							<h1 className="login-md">Recents &#128293;</h1>
 							<div className="trending-list">
 								{recents.length > 0 ? 
-									recents.map((item, index) => {
-										// let href = "/showcase/" + item.id;
-
-										return (
-											<Link key={index} to={item.href} className="trending-item">
-												<img src={item.image} className="trending-item-image" alt="Playlist Cover" />
-												<div className="trending-content">
-													<span>{item.name}</span>
-													<p>{item.username}</p>
-												</div>
-											</Link>
-										)
-									}) :
+									<TrendingList recents={recents} /> :
 									<Bars color="#eee" wrapperStyle={{marginLeft: 100}} width="100" height="248" ariaLabel="Loading" />
 								}
 							</div>

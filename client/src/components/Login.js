@@ -1,4 +1,5 @@
 import React from 'react'
+import HomeButton from 'components/HomeButton';
 
 function Login() {
 	let path = window.location.pathname;
@@ -11,6 +12,7 @@ function Login() {
 
 	return (
 		<div className="login fullpage-center">
+			<HomeButton />
 			<div className="login-wrapper">
 				<div className="login-content">
 					<h1 className="login-xl">Promote your Music!</h1>

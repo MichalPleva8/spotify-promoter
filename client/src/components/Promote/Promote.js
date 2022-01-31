@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
 import { Login, Accept } from 'components/index.js';
 import { api } from 'App';
+import HomeButton from 'components/HomeButton';
 
 
 function Grid({ playlists, select }) {
@@ -16,7 +16,6 @@ function Grid({ playlists, select }) {
 				)
 			)}
 			</div>
-			{/* <button onClick={() => loadPlaylists()} className="load-button accept-action">Load More</button> */}
 		</>
 	);
 }
@@ -56,6 +55,7 @@ function Promote() {
 
 	return (
 		<div className="promote">
+			<HomeButton />
 			{ playlists.length > 0 ? 
 				<div className="promote-wrapper">
 					<div className="h-stack gap-20">
