@@ -6,7 +6,11 @@ class Player {
 	}
 
 	setSource = (source) => {
-		this.player.src = source;
+		try {
+			this.player.src = source;
+		} catch (error) {
+			console.error("PlayerApi:", error)	
+		}
 	}
 
 	setVolume = (volume) => {

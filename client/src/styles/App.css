@@ -211,7 +211,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: start;
+  align-items: flex-start;
   gap: 24px;
 }
 
@@ -448,7 +448,7 @@ body {
 
   display: flex;
   flex-direction: row;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
 
   transition: 200ms;
@@ -876,5 +876,12 @@ body {
 @media (min-height: 900px) {
   .showcase-wrapper {
     margin-top: 3%;
+  }
+}
+
+/* Safari gap fix */
+@supports (-webkit-touch-callout: none) and (not (translate: none)) {
+  .home-group > *:not(:last-child) {
+    margin-bottom: 30px;
   }
 }

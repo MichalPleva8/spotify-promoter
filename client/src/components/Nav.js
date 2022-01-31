@@ -1,21 +1,14 @@
 import React, { useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ReactTooltip from 'react-tooltip';
 import nouser from 'assets/nouser.png';
 
 function Nav({ user }) {
 	let navigate = useNavigate();
-	let refCopy = useRef(null);
+	let copyRef = useRef(null);
 
 	let logout = () => {
 		navigate("/");
-	}
-
-	let share = () => {
-		navigator.clipboard.writeText(window.location.href)
-			.catch(() => console.warn("Link was not coppied!"));
-
-		ReactTooltip.show(refCopy);
 	}
 
 	return (
@@ -38,15 +31,11 @@ function Nav({ user }) {
 					</div>
 				</div>
 
-				<div>
-					<p ref={ref => refCopy = ref} data-tip='Coppied!'></p>
-					<button onClick={() => share()}
-					className="button-sm accept-primary copy-button"
-					>Copy link</button>
-				</div>
-				<ReactTooltip
-				effect='solid' event='click'
-				afterShow={() => setTimeout(ReactTooltip.hide, 3000)} />
+				<Link to="/promote">
+					<button className="button-sm accept-primary copy-button">
+						Promote your music!
+					</button>
+				</Link>
 			</div>
 		</div>
 	)

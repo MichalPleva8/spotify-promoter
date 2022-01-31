@@ -25,17 +25,17 @@ app.use('/auth', authRouter);
 app.use('/process', processRouter);
 
 // Load React 
-app.get('*', (req, res) => {
+app.get('/*', (req, res) => {
 	res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
-app.get('/', (req, res) => {
-	res.sendFile(path.join(__dirname, "build", "index.html"));
-});
+// app.get('/', (req, res) => {
+// 	res.sendFile(path.join(__dirname, "build", "index.html"));
+// });
 
-app.get('/promote', (req, res) => {
-	res.sendFile(path.join(__dirname, "build", "index.html"));
-});
+// app.get('/promote', (req, res) => {
+// 	res.sendFile(path.join(__dirname, "build", "index.html"));
+// });
 
 const PORT = process.env.PORT || 5000;
 

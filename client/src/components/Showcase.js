@@ -1,13 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { Bars } from 'react-loader-spinner';
+import ReactTooltip from 'react-tooltip';
 import { Nav } from 'components/index';
 import { api } from 'App';
 import Player from 'services/Player.js';
+import grainCover from 'assets/grain.gif';
 
 let player;
 
 function Controls({ isPlaying, setIsPlaying, pagination, setPagination, handlePaginationChange, totalTracks }) {
+	let shareRef = useRef(null);
+
 	let handleVolume = (event) => {
 		let decimal = Number(event.target.value);
 		player.setVolume(decimal);
@@ -26,8 +30,11 @@ function Controls({ isPlaying, setIsPlaying, pagination, setPagination, handlePa
 		handlePaginationChange();
 	}
 
-	let likeTrack = (target) => {
-		target.classList.toggle('liked');
+	let share = () => {
+		navigator.clipboard.writeText(window.location.href)
+			.catch(() => console.warn("Link was not coppied!"));
+
+		ReactTooltip.show(shareRef);
 	}
 
 	let nextTrack = () => {
@@ -67,11 +74,19 @@ function Controls({ isPlaying, setIsPlaying, pagination, setPagination, handlePa
 					</svg>
 				</button>
 				}
-				<button onClick={(event) => likeTrack(event.target)} className="control-button">
-					<svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-					<path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
-					</svg>
-				</button>
+
+				<div>
+					<p ref={ref => shareRef = ref} data-tip='Coppied!'></p>
+					<button onClick={() => share()} className="control-button">
+						<svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+						<path className="liked" d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
+						<path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
+						</svg>
+					</button>
+					<ReactTooltip effect='solid' event='click'
+					afterShow={() => setTimeout(ReactTooltip.hide, 3000)} />
+				</div>
+
 				<button onClick={() => nextTrack()} className="control-button">
 					<svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
 					<path d="M4.555 5.168A1 1 0 003 6v8a1 1 0 001.555.832L10 11.202V14a1 1 0 001.555.832l6-4a1 1 0 000-1.664l-6-4A1 1 0 0010 6v2.798l-5.445-3.63z" />
@@ -86,11 +101,16 @@ function Track({ data, setPagination, index, pagination }) {
 	player = new Player(document.querySelector('#thePlayer'));
 	let cover = data.image;
 
+	if (data.preview === null) {
+		cover = grainCover;
+	}
+
 	window.player = player // Global scope for Player
 
 	return (
 		<div className="track" onClick={() => setPagination(index)}>
 			<img src={cover} alt="cover" />
+
 			{/* {pagination === index &&
 			<div className="bar">
 				<div className="fill" style={{width: `${time}%`}}></div>
@@ -119,15 +139,21 @@ function Showcase(props) {
 
 	let handlePaginationChange = () => {
 		if (tracks.length > 0) {
-			let index = pagination;
-			let artists = tracks[index].artists.map(item => {
+			let name = tracks[pagination].name;
+			let artist = tracks[pagination].artists.map(item => {
 				return item.name;
 			});
+			artist = artist.join(" & ");
+
+			if (tracks[pagination].preview === null) {
+				name = "Not supported"
+				artist = "Spotify does not give access to this song"
+			}
 
 			let sliderItems = document.querySelectorAll('.track');
 			sliderItems[pagination].scrollIntoView({behavior: "smooth", block: "start", inline: "center"})
 
-			setCurrent({ name: tracks[index].name, artist: artists.join(" & ") })
+			setCurrent({ name, artist })
 		}
 	}
 
@@ -154,8 +180,18 @@ function Showcase(props) {
 			if (pagination < tracks.length) {
 				player.setSource(tracks[pagination].preview);
 			}
-			player.play();
-			setIsPlaying(true);
+
+			let playPromise = player.play();
+			if (playPromise !== undefined) {
+				playPromise
+					.then(() => {
+						player.play();
+					})
+					.catch(err => console.error(err));
+			}
+
+			// setIsPlaying(true);
+			setIsPlaying(!window.player.player.paused);
 		}
 
 		handlePaginationChange();
