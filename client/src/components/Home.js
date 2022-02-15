@@ -49,7 +49,10 @@ function Home() {
 				<div className="home-group">
 					<div className="trending">
 						<div className="trending-wrapper">
-							<h1 className="login-md">Recents &#128293;</h1>
+							<div className="flex-between items-center">
+								<h1 className="login-md">Recents &#128293;</h1>
+								<Link className='link' to="/showcase">Show all</Link>
+							</div>
 							<div className="trending-list">
 								{recents.length > 0 ? 
 									<TrendingList recents={recents} /> :

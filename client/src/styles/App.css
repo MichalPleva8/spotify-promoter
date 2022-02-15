@@ -26,6 +26,38 @@ body {
   align-items: center;
 }
 
+.link {
+  color: #AA076B;
+  transition: .2s ease-in-out;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+/* Flex */
+.flex-center {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-between {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.items-center {
+  align-items: center;
+}
+
 .gap-20 {
   gap: 20px;
 }
@@ -52,10 +84,12 @@ body {
 
 .button-primary {
   background: linear-gradient(90.29deg, #AA076B 2.13%, #61045F 86.88%);
+  border: none;
 }
 
 .button-primary:hover {
   filter: saturate(1.1);
+  border: none;
 }
 
 .button-secondary > .hero-solid {

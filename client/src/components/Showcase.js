@@ -217,12 +217,12 @@ function Showcase(props) {
 					<h3 className="current-artist">{current.artist !== null ? current.artist : "with click of a button"}</h3>
 				</div>
 				<Controls
-					isPlaying={isPlaying}
-					setIsPlaying={setIsPlaying}
-					pagination={pagination}
-					setPagination={setPagination}
-					handlePaginationChange={handlePaginationChange}
-					totalTracks={totalTracks}
+				  isPlaying={isPlaying}
+				  setIsPlaying={setIsPlaying}
+				  pagination={pagination}
+				  setPagination={setPagination}
+				  handlePaginationChange={handlePaginationChange}
+				  totalTracks={totalTracks}
 				/>
 			</div>
 		</div>

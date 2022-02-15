@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { Login, Accept } from 'components/index.js';
+import { Login, Accept, Experimental } from 'components/index.js';
 import { api } from 'App';
-import HomeButton from 'components/HomeButton';
+import { HomeButton } from 'components/index';
 
 
 function Grid({ playlists, select }) {
@@ -64,6 +64,7 @@ function Promote() {
 					{selected === null ?
 					<Grid playlists={playlists} select={select} /> :
 					<Accept unSelect={unSelect} selected={selected} me={me} />}
+					{/* <Experimental unSelect={unSelect} selected={selected} me={me} />} */}
 				</div> :
 				<Login />
 			}
