@@ -9,6 +9,8 @@ Promoter is a web app made to promote your Spotify Playlist!
 - Every user will see your music in beautiful coverflow view
 - Promoter design is based on absolute simplicity
 
+**You can't promote your playlists because spotify won't let you authorize because this app is registered as development only app**
+
 # How it works ?
 
 You can promote your playlist by doing this 4 easy steps:
