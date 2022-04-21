@@ -1,3 +1,4 @@
+
 module.exports = function checkAccessToken(req, res, next) {
 	let logging = false; 
 
@@ -7,8 +8,10 @@ module.exports = function checkAccessToken(req, res, next) {
 		}
 
 		if (req.query.token === undefined && req.headers.key == undefined) {
-			res.status(401).json({ error: "Access Token not provided", statusCode: 401 })
-			return;
+			return res.status(401).json({
+				data: {},
+				message: "No Authorization!",
+			})
 		}
 	}
 

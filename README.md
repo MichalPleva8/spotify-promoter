@@ -1,5 +1,7 @@
 # Spotify Promoter 
 
+One of my frist apps, looking backwards the code is kinda funny, but at least it works :D
+
 <img src="/docs/preview.jpg" alt="App preview" />
 
 You can try this app on [spotify-promoter.herokuapp.com](https://spotify-promoter.herokuapp.com/)

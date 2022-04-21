@@ -12,17 +12,17 @@ const credentials = {
 
 // Generate random string for state
 let generateRandomString = (length) => {
-  let text = '';
-  let possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+	let text = '';
+	let possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
-  for (let i = 0; i < length; i++) {
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
-  }
-  return text;
+	for (let i = 0; i < length; i++) {
+		text += possible.charAt(Math.floor(Math.random() * possible.length));
+	}
+
+	return text;
 };
 
 let redirectTo = '';
-let redirectPath = '';
 router.get('/login', (req, res) => {
 	try {
 		if (req.query.redirect != '') {
@@ -37,7 +37,6 @@ router.get('/login', (req, res) => {
 		let authParams = new URLSearchParams({
 			response_type: 'code',
 			client_id: credentials.client_id,
-			// scope: 'user-read-playback-state user-modify-playback-state user-read-currently-playing user-read-private user-read-email user-follow-modify user-follow-read user-library-modify user-library-read streaming app-remote-control user-read-playback-position user-top-read user-read-recently-played playlist-modify-private playlist-read-collaborative playlist-read-private playlist-modify-public',
 			scope: 'user-read-private user-library-read playlist-read-collaborative user-read-email playlist-read-private',
 			redirect_uri: credentials.redirect_uri,
 			state: generateRandomString(16)
@@ -65,14 +64,12 @@ router.get('/callback', (req, res) => {
 			client_id: credentials.client_id,
 			client_secret: credentials.client_secret
 		};
-		let requestHeaders = { "Authorization": 'Basic ' + buffer, "Content-Type": "application/x-www-form-urlencoded"};
 
 		const users = [];
 
 		request.post({
 			url: requestUrl,
 			form: requestData,
-			// headers: requestHeaders,
 			json: true
 		}, (error, response, body) => {
 			if (!error && response.statusCode === 200) {
@@ -90,7 +87,7 @@ router.get('/callback', (req, res) => {
 	}
 });
 
-router.get('/refresh', (req, res) => {
+router.get('/refresh', (req, res, next) => {
 	let buffer = (Buffer.from(credentials.client_id + ':' + credentials.client_secret)).toString('base64');
 
 	let requestUrl = 'https://accounts.spotify.com/api/token';
@@ -108,19 +105,18 @@ router.get('/refresh', (req, res) => {
 			json: true
 		}, (error, response, body) => {
 			if (!error && response.statusCode === 200) {
-
-				console.log("Token has been refreshed");
-				console.log(body);
-				res.status(200).json({ token: body.access_token, expires: body.expires_in });
+				return res.status(200).json({
+					token: body.access_token,
+					expires: body.expires_in
+				});
 			} else {
 				console.error(error);
 				res.redirect(`${redirectTo}?error=notrefreshed`);
 			}
 		});
 	} catch (error) {
-		res.status(400).json({ error: "norefresh", message: "Refresh crashed while requesting data" })
+		return next(error);
 	}
-
 });
 
 module.exports = router;

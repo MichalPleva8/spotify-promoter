@@ -2,11 +2,10 @@ const express = require('express');
 const router = express.Router();
 const request = require('request');
 
-router.get('/me', (req, res) => {
+router.get('/me', (req, res, next) => {
 	const token = req.headers.key || req.query.token;
 
 	const requestUri = "https://api.spotify.com/v1/me";
-	const requestBody = {};
 	const requestHeaders = {
 		"Accept": "application/json",
 		"Content-Type": "application/json",
@@ -15,6 +14,8 @@ router.get('/me', (req, res) => {
 
 	try {
 		request.get(requestUri, { headers: requestHeaders }, (error, response, body) => {
+			if (error) throw error;
+
 			let raw = JSON.parse(body)
 
 			let payload = {
@@ -32,16 +33,16 @@ router.get('/me', (req, res) => {
 				};
 			}
 
-			res.status(200).json(payload);
+			return res.status(200).json(payload);
 		});
 	} catch (error) {
-		res.status(400).json({ error: 'invalid_token', message: error });
+		return next(error);
 	}
 
 });
 
 // Get list of all songs
-router.get('/songs', (req, res) => {
+router.get('/songs', (req, res, next) => {
 	const token = req.headers.key || req.query.token;
 
 	let limit = req.query.limit || 25;
@@ -52,31 +53,29 @@ router.get('/songs', (req, res) => {
 	const requestHeaders = {
 		"Accept": "application/json",
 		"Content-Type": "application/json",
-		"Authorization": `Bearer ${token}`
+		"Authorization": `Bearer ${token}`,
 	};
 
 	try {
 		request.get(requestUri, { headers: requestHeaders }, (error, response, body) => {
-			if (error) { res.status(400).json({ error }); return; }
+			if (error) throw error; 
 				
-			let raw = JSON.parse(body)
-			let payload = []; 
-			
-			for (let i = 0; i < raw.items.length; i++) {
-				payload.push({
-					cover: raw.items[i].track.album.images[0].url,
-					name: raw.items[i].track.name,
-					artist: raw.items[i].track.artists[0].name,
-					album: raw.items[i].track.album.name,
-					duration_ms: raw.items[i].track.duration_ms, 
-					uri: raw.items[i].track.uri
-				});
-			}
+			const raw = JSON.parse(body)
+			const payload = raw.items.map(item => {
+				return {
+					cover: item.track.album.images[0].url,
+					name: item.track.name,
+					artist: item.track.artists[0].name,
+					album: item.track.album.name,
+					duration_ms: item.track.duration_ms, 
+					uri: item.track.uri
+				};
+			});
 
-			res.status(200).json(payload);
+			return res.status(200).json(payload);
 		});
 	} catch (error) {
-		res.status(400).json({ error: 'invalid_token', message: error });
+		return next(error);
 	}
 });
 
@@ -96,38 +95,31 @@ router.get('/playlists', (req, res) => {
 
 	try {
 		request.get(requestUri, { headers: requestHeaders }, (error, response, body) => {
-			if (error) { res.status(400).json({ error: 'Bad request to Spotify Api', message: error }); return; }
+			if (error) throw error;
 				
-			let raw = JSON.parse(body)
+			const raw = JSON.parse(body)
 			
-			try {
-				let payload = []; 
-				for (let i = 0; i < raw.items.length; i++) {
-					payload.push({
-						id: raw.items[i].id,
-						image: raw.items[i].images[0].url,
-						name: raw.items[i].name,
-						author: raw.items[i].owner.display_name,
-						tracks: {
-							href: raw.items[i].tracks.href,
-							total: raw.items[i].tracks.total
-						} 
-					});
-				}
+			const payload = raw.map(item => {
+				return {
+					id: item.id,
+					image: item.images[0].url,
+					name: item.name,
+					author: item.owner.display_name,
+					tracks: {
+						href: item.tracks.href,
+						total: item.tracks.total
+					} 
+				};
+			});
 
-				res.status(200).json(payload);
-			} catch (error) {
-				console.error(error);
-				res.status(400).json(error)
-			}
+			return res.status(200).json(payload);
 		});
 	} catch (error) {
-		console.error(error);
-		res.status(400).json({ error: 'invalid_token', message: error });
+		return next(error);
 	}
 });
 
-router.get('/playlist/tracks', (req, res) => {
+router.get('/playlist/tracks', (req, res, next) => {
 	const token = req.headers.key || req.query.token;
 
 	// Params for request
@@ -142,12 +134,12 @@ router.get('/playlist/tracks', (req, res) => {
 		"Authorization": `Bearer ${token}`
 	};
 
-	request.get(requestUri, { headers: requestHeaders }, (error, response, body) => {
-		if (error) { res.status(400).json({ error: 'Bad request to Spotify Api', message: error }); return; }
+	try {
+		request.get(requestUri, { headers: requestHeaders }, (error, response, body) => {
+			if (error) { res.status(400).json({ error: 'Bad request to Spotify Api', message: error }); return; }
+				
+			let raw = JSON.parse(body)
 			
-		let raw = JSON.parse(body)
-		
-		try {
 			let payload = []; 
 			raw.items.forEach(item => payload.push(item.track));
 			// for (let i = 0; i < raw.items.length; i++) {
@@ -163,15 +155,15 @@ router.get('/playlist/tracks', (req, res) => {
 			// 	});
 			// }
 
-			res.status(200).json(payload);
-		} catch (error) {
-			res.status(400).json({ error: 'noresponse', message: error})
-		}
-	});
+			return res.status(200).json(payload);
+		});
+	} catch (error) {
+		return next(error);
+	}
 });
 
 // Get current playback 
-router.get('/playback', (req, res) => {
+router.get('/playback', (req, res, next) => {
 	const token = req.headers.key || req.query.token;
 
 	const requestUri = "https://api.spotify.com/v1/me/player/currently-playing";
@@ -181,30 +173,34 @@ router.get('/playback', (req, res) => {
 		"Authorization": `Bearer ${token}`
 	};
 
-	request.post(requestUri, { headers: requestHeaders }, (error, response, body) => {
-		if (error) { res.status(400).json({ error }); return;}
+	try {
+		request.post(requestUri, { headers: requestHeaders }, (error, response, body) => {
+			if (error) throw error;
 
-		console.log(response.statusCode);
+			console.log(response.statusCode);
 
-		// let payload = {};
-		// if (body.item) {
-		// 	payload = {
-		// 		timestamp: body.timestamp,
-		// 		progress_ms: body.progress_ms,
-		// 		album: body.item.album,
-		// 		href: body.item.href,
-		// 		id: body.item.id,
-		// 		images: body.item.images,
-		// 		name: body.item.name,
-		// 	}
-		// }
+			// let payload = {};
+			// if (body.item) {
+			// 	payload = {
+			// 		timestamp: body.timestamp,
+			// 		progress_ms: body.progress_ms,
+			// 		album: body.item.album,
+			// 		href: body.item.href,
+			// 		id: body.item.id,
+			// 		images: body.item.images,
+			// 		name: body.item.name,
+			// 	}
+			// }
 
-		res.status(200).json(body);
-	});
+			return res.status(200).json(body);
+		});
+	} catch (error) {
+		return next(error);
+	}
 });
 
 // Skip song
-router.get('/skip', (req, res) => {
+router.get('/skip', (req, res, next) => {
 	const token = req.headers.key || req.query.token;
 
 	const requestUri = `https://api.spotify.com/v1/me/player/next`;
@@ -214,15 +210,22 @@ router.get('/skip', (req, res) => {
 		"Authorization": `Bearer ${token}`
 	};
 
-	request.post(requestUri, { headers: requestHeaders }, (error, response, body) => {
-		if (error) { res.status(400).json({ error }); return;}
+	try {
+		request.post(requestUri, { headers: requestHeaders }, (error, response, body) => {
+			if (error) throw error;
 
-		res.status(200).json({ error: 'none', message: 'Skipped!' });
-	});
+			return res.status(200).json({
+				data: {},
+				message: 'Skipped!',
+			});
+		});
+	} catch (error) {
+		return next(error);
+	}
 });
 
 // Prev song 
-router.get('/prev', (req, res) => {
+router.get('/prev', (req, res, next) => {
 	const token = req.headers.key || req.query.token;
 
 	const requestUri = `https://api.spotify.com/v1/me/player/previous`;
@@ -232,15 +235,19 @@ router.get('/prev', (req, res) => {
 		"Authorization": `Bearer ${token}`
 	};
 
-	request.post(requestUri, { headers: requestHeaders }, (error, response, body) => {
-		if (error) { res.status(400).json({ error }); return;}
+	try {
+		request.post(requestUri, { headers: requestHeaders }, (error, response, body) => {
+			if (error) throw error;
 
-		res.status(200).json({ error: 'none', message: 'Previous!' });
-	});
+			return res.status(200).json({ error: 'none', message: 'Previous!' });
+		});
+	} catch (error) {
+		return next(error);
+	}
 });
 
 // Change song
-router.get('/play', (req, res) => {
+router.get('/play', (req, res, next) => {
 	let songUri = req.query.uri;
 
 	const requestUri = `https://api.spotify.com/v1/me/player/queue?uri=${songUri}`;
@@ -250,16 +257,20 @@ router.get('/play', (req, res) => {
 		"Authorization": `Bearer ${req.query.token}`
 	};
 
-	request.post(requestUri, { headers: requestHeaders }, (error, response, body) => {
-		if (error) { res.status(400).json({ error }); return;}
-			
-		request.post(`https://api.spotify.com/v1/me/player/next`, { headers: requestHeaders }, (error, response, body) => {
-			if (error) { res.status(400).json({ error }); return;}
+	try {
+		request.post(requestUri, { headers: requestHeaders }, (error, response, body) => {
+			if (error) throw error;
+				
+			request.post(`https://api.spotify.com/v1/me/player/next`, { headers: requestHeaders }, (error, response, body) => {
+				if (error) throw error;
 
-			let payload = { songUri, message: 'Played!' }; 
-			res.status(200).json(payload);
+				const payload = { songUri, message: 'Played!' }; 
+				return res.status(200).json(payload);
+			});
 		});
-	});
+	} catch (error) {
+		return next(error);
+	}
 });
 
 
