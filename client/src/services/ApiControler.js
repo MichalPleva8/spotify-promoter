@@ -99,11 +99,15 @@ class ApiControler {
 			"Accept": "application/json"
 		}
 
-		let options = { method: 'GET', headers: requestHeaders };
-		const response = await fetch(`${this.origin}/process/tags`, options);
-		const json = await response.json();
+		try {
+			let options = { method: 'GET', headers: requestHeaders };
+			const response = await fetch(`${this.origin}/process/tags`, options);
+			const json = await response.json();
 
-		return json;
+			return json;
+		} catch (error) {
+			return new Error('Could not get tags!');
+		}
 	} 
 
 	getPromotedPlaylist = async (pid) => {

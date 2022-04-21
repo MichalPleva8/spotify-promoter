@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { ReactNotifications, Store } from 'react-notifications-component';
 import { Link } from 'react-router-dom';
 import { Bars } from 'react-loader-spinner';
 import { api } from 'App';
 import dev from 'assets/author.jpg';
+import 'react-notifications-component/dist/theme.css';
 
 function TrendingList({ recents }) {
 	return (
@@ -24,25 +26,41 @@ function Home() {
 	const [random, setRandom] = useState("");
 	const [recents, setRecents] = useState([]);
 
-	useEffect(async () => {
+	useEffect(() => {
+		async function getTags() {
+			try {
+				const result = await api.getAllTags();
 
-		await api.getAllTags()
-			.then(result => {
 				console.log(result);
 				let index = Math.floor(Math.random() * result.length);
 				let only = result.slice((result.length - 3), result.length);
 
 				setRecents(only);
 				setRandom(result[index].href)
-			 })
-			.catch(error => {
-				console.error(error);
+			} catch (error) {
 				setRandom("/showcase/0ZjgbF5FSJW3K9eQ7wpYvb");
-			});
+				Store.addNotification({
+					title: "Server Internal Error",
+					message: "Could not retrieve promoted playlists!",
+					type: "danger",
+					insert: "top",
+					container: "top-right",
+					animationIn: ["animate__animated", "animate__fadeIn"],
+					animationOut: ["animate__animated", "animate__fadeOut"],
+					dismiss: {
+						duration: 8000,
+						onScreen: true
+					}
+				});
+			}
+		}
+
+		getTags();
 	}, []);
 
 	return (
 		<div className="login fullpage-center">
+			<ReactNotifications />
 			<div className="login-wrapper">
 				<h1 className="login-xl">Spotify Promoter</h1>
 
@@ -83,7 +101,7 @@ function Home() {
 				<img src={dev} className="login-profile" alt="Profile" />
 				<div className="login-dev-content">
 					<p>Coded by Michal Pleva</p>
-					<a href="https://www.github.com/MichalPleva8" target="_blank">Github</a>
+					<a rel='noreferrer' href="https://www.github.com/MichalPleva8" target="_blank">Github</a>
 				</div>
 			</span>
 		</div>
